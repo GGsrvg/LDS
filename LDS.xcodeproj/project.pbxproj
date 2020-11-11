@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5B606E74255C559100926647 /* LDS.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 5B606E73255C559100926647 /* LDS.podspec */; };
+		5B606E8E255C58C000926647 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 5B606E8D255C58C000926647 /* README.md */; };
 		5BD1FC2A255AF761006C64B7 /* LDS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BD1FC20255AF761006C64B7 /* LDS.framework */; };
 		5BD1FC2F255AF761006C64B7 /* LDSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD1FC2E255AF761006C64B7 /* LDSTests.swift */; };
 		5BD1FC31255AF761006C64B7 /* LDS.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BD1FC23255AF761006C64B7 /* LDS.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -60,6 +61,7 @@
 
 /* Begin PBXFileReference section */
 		5B606E73255C559100926647 /* LDS.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LDS.podspec; sourceTree = "<group>"; };
+		5B606E8D255C58C000926647 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		5BD1FC20255AF761006C64B7 /* LDS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LDS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BD1FC23255AF761006C64B7 /* LDS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LDS.h; sourceTree = "<group>"; };
 		5BD1FC24255AF761006C64B7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -112,6 +114,7 @@
 		5BD1FC16255AF761006C64B7 = {
 			isa = PBXGroup;
 			children = (
+				5B606E8D255C58C000926647 /* README.md */,
 				5B606E73255C559100926647 /* LDS.podspec */,
 				5BD1FC22255AF761006C64B7 /* LDS */,
 				5BD1FC2D255AF761006C64B7 /* LDSTests */,
@@ -315,6 +318,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B606E8E255C58C000926647 /* README.md in Resources */,
 				5B606E74255C559100926647 /* LDS.podspec in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
