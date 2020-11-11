@@ -21,7 +21,7 @@ public class UITableViewAdapter<Header, Row, Footer>: NSObject, UITableViewDataS
     public var titleForHeaderSection: ViewForSection? = nil
     public var titleForFooterSection: ViewForSection? = nil
     
-    init(_ tableView: UITableView, observableArray: OA) {
+    public init(_ tableView: UITableView, observableArray: OA) {
         self.observable = observableArray
         self.tableView = tableView
         super.init()

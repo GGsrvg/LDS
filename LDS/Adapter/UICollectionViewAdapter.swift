@@ -21,30 +21,30 @@ public class UICollectionViewAdapter<Header, Row, Footer>: NSObject, UICollectio
     public var titleForHeaderSection: ViewForSection? = nil
     public var titleForFooterSection: ViewForSection? = nil
     
-    init(_ collectionView: UICollectionView, observableArray: OA) {
+    public init(_ collectionView: UICollectionView, observableArray: OA) {
         self.observable = observableArray
         self.collectionView = collectionView
         super.init()
         observableArray.addCallback(self)
     }
     
-    func numberOfSections(in tableView: UITableView) -> Int {
+    public func numberOfSections(in tableView: UITableView) -> Int {
         return observable.array.count
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return observable.array[section].rows.count
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return self.titleForHeaderSection?(tableView, section)
     }
     
-    func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+    public func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         return self.titleForFooterSection?(tableView, section)
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let action = self.cellForRow else { return UITableViewCell() }
         return action(tableView, indexPath)
     }

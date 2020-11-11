@@ -12,6 +12,8 @@ public class ObservableDataSource<Header, Row, Footer>: ObservableArray {
     
     public private(set) var array: [SI] = []
     private var callbacks: [ObservableDataSourceDelegate] = []
+    
+    public init(){}
 }
 
 // work with array
