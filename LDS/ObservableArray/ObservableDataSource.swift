@@ -7,10 +7,10 @@
 
 import Foundation
 
-final class ObservableDataSource<Header, Row, Footer>: ObservableArray {
+public class ObservableDataSource<Header, Row, Footer>: ObservableArray {
     public typealias SI = SectionItem<Header, Row, Footer>
     
-    private(set) var array: [SI] = []
+    public private(set) var array: [SI] = []
     private var callbacks: [ObservableDataSourceDelegate] = []
 }
 

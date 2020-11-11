@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol ObservableDataSourceDelegate: class {
+public protocol ObservableDataSourceDelegate: class {
     func addSection(observableArray: ObservableArray)
     func insertSection(observableArray: ObservableArray, at index: Int)
     func updateSection(observableArray: ObservableArray, at index: Int)

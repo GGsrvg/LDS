@@ -7,11 +7,11 @@
 
 import UIKit
 
-class UICollectionViewAdapter<Header, Row, Footer>: NSObject, UICollectionViewDelegate {
+public class UICollectionViewAdapter<Header, Row, Footer>: NSObject, UICollectionViewDelegate {
     
-    typealias OA = ObservableDataSource<Header, Row, Footer>
-    typealias CellForRow = ((UITableView, IndexPath) -> UITableViewCell)
-    typealias ViewForSection = ((UITableView, Int) -> String?)
+    public typealias OA = ObservableDataSource<Header, Row, Footer>
+    public typealias CellForRow = ((UITableView, IndexPath) -> UITableViewCell)
+    public typealias ViewForSection = ((UITableView, Int) -> String?)
     
     // TODO: need check on leeks
     private let observable: OA
@@ -51,54 +51,54 @@ class UICollectionViewAdapter<Header, Row, Footer>: NSObject, UICollectionViewDe
 }
 
 extension UICollectionViewAdapter: ObservableDataSourceDelegate {
-    func addSection(observableArray: ObservableArray) {
+    public func addSection(observableArray: ObservableArray) {
         let indexLastSection: Int = observable.array.count - 1
         collectionView.insertSections(.init(integer: indexLastSection))
     }
     
-    func insertSection(observableArray: ObservableArray, at index: Int) {
+    public func insertSection(observableArray: ObservableArray, at index: Int) {
         collectionView.insertSections(.init(integer: index))
     }
     
-    func updateSection(observableArray: ObservableArray, at index: Int) {
+    public func updateSection(observableArray: ObservableArray, at index: Int) {
         collectionView.reloadSections(.init(integer: index))
     }
     
-    func removeSection(observableArray: ObservableArray, at index: Int) {
+    public func removeSection(observableArray: ObservableArray, at index: Int) {
         collectionView.deleteSections(.init(integer: index))
     }
     
-    func clear(observableArray: ObservableArray) {
+    public func clear(observableArray: ObservableArray) {
         collectionView.reloadData()
     }
     
-    func changeHeader(observableArray: ObservableArray, section: Int) {
+    public func changeHeader(observableArray: ObservableArray, section: Int) {
         collectionView.reloadSections(.init(integer: section))
     }
     
-    func changeFooter(observableArray: ObservableArray, section: Int) {
+    public func changeFooter(observableArray: ObservableArray, section: Int) {
         collectionView.reloadSections(.init(integer: section))
     }
     
-    func addCell(observableArray: ObservableArray, section: Int) {
+    public func addCell(observableArray: ObservableArray, section: Int) {
         let indexLasrRow = self.observable.array[section].rows.count - 1
         self.collectionView.insertItems(at: [.init(row: indexLasrRow, section: section)])
         self.collectionView.refreshControl?.endRefreshing()
     }
     
-    func insertCell(observableArray: ObservableArray, section: Int, at index: Int) {
+    public func insertCell(observableArray: ObservableArray, section: Int, at index: Int) {
         self.collectionView.insertItems(at: [.init(row: index, section: section)])
     }
     
-    func updateCell(observableArray: ObservableArray, section: Int, at index: Int) {
+    public func updateCell(observableArray: ObservableArray, section: Int, at index: Int) {
         self.collectionView.insertItems(at: [.init(row: index, section: section)])
     }
     
-    func removeCell(observableArray: ObservableArray, section: Int, at index: Int) {
+    public func removeCell(observableArray: ObservableArray, section: Int, at index: Int) {
         self.collectionView.insertItems(at: [.init(row: index, section: section)])
     }
     
-    func clearCells(observableArray: ObservableArray, section: Int, count: Int) {
+    public func clearCells(observableArray: ObservableArray, section: Int, count: Int) {
         var indexPaths: [IndexPath] = []
         for i in 0..<count {
             indexPaths.append(IndexPath(row: i, section: section))

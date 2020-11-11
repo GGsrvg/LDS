@@ -7,10 +7,10 @@
 
 import Foundation
 
-class SectionItem<H, R, F> {
-    var header: H
-    var rows: [R]
-    var footer: F
+public class SectionItem<H, R, F> {
+    public var header: H
+    public var rows: [R]
+    public var footer: F
     
     init(header: H, rows: [R], footer: F) {
         self.header = header
