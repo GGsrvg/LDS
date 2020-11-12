@@ -12,7 +12,7 @@ public class SectionItem<H, R, F> {
     public var rows: [R]
     public var footer: F
     
-    init(header: H, rows: [R], footer: F) {
+    public init(header: H, rows: [R], footer: F) {
         self.header = header
         self.rows = rows
         self.footer = footer
