@@ -8,18 +8,18 @@
 import Foundation
 
 public protocol ObservableDataSourceDelegate: class {
-    func addSection(observableArray: ObservableArray)
-    func insertSection(observableArray: ObservableArray, at index: Int)
-    func updateSection(observableArray: ObservableArray, at index: Int)
-    func removeSection(observableArray: ObservableArray, at index: Int)
-    func clear(observableArray: ObservableArray)
+    func addSection()
+    func insertSection(at index: Int)
+    func updateSection(at index: Int)
+    func removeSection(at index: Int)
+    func clear()
     
-    func changeHeader(observableArray: ObservableArray, section: Int)
-    func changeFooter(observableArray: ObservableArray, section: Int)
+    func changeHeader(section: Int)
+    func changeFooter(section: Int)
     
-    func addCell(observableArray: ObservableArray, section: Int)
-    func insertCell(observableArray: ObservableArray, section: Int, at index: Int)
-    func updateCell(observableArray: ObservableArray, section: Int, at index: Int)
-    func removeCell(observableArray: ObservableArray, section: Int, at index: Int)
-    func clearCells(observableArray: ObservableArray, section: Int, count: Int)
+    func addCell(section: Int)
+    func insertCell(section: Int, at index: Int)
+    func updateCell(section: Int, at index: Int)
+    func removeCell(section: Int, at index: Int)
+    func clearCells(section: Int, count: Int)
 }
