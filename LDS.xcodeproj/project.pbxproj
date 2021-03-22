@@ -16,7 +16,6 @@
 		5BD1FC2F255AF761006C64B7 /* LDSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD1FC2E255AF761006C64B7 /* LDSTests.swift */; };
 		5BD1FC31255AF761006C64B7 /* LDS.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BD1FC23255AF761006C64B7 /* LDS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5BD1FC43255AF7B2006C64B7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD1FC42255AF7B2006C64B7 /* AppDelegate.swift */; };
-		5BD1FC45255AF7B2006C64B7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD1FC44255AF7B2006C64B7 /* SceneDelegate.swift */; };
 		5BD1FC4C255AF7B4006C64B7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BD1FC4B255AF7B4006C64B7 /* Assets.xcassets */; };
 		5BD1FC4F255AF7B4006C64B7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BD1FC4D255AF7B4006C64B7 /* LaunchScreen.storyboard */; };
 		5BD1FC5A255AF7EE006C64B7 /* UICollectionViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD1FC59255AF7EE006C64B7 /* UICollectionViewAdapter.swift */; };
@@ -74,7 +73,6 @@
 		5BD1FC30255AF761006C64B7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5BD1FC40255AF7B2006C64B7 /* LDSExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LDSExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BD1FC42255AF7B2006C64B7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		5BD1FC44255AF7B2006C64B7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		5BD1FC4B255AF7B4006C64B7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5BD1FC4E255AF7B4006C64B7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5BD1FC50255AF7B4006C64B7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -196,7 +194,6 @@
 			children = (
 				5B926E90255EFE6D006A5373 /* Pages */,
 				5BD1FC42255AF7B2006C64B7 /* AppDelegate.swift */,
-				5BD1FC44255AF7B2006C64B7 /* SceneDelegate.swift */,
 				5BD1FC4B255AF7B4006C64B7 /* Assets.xcassets */,
 				5BD1FC4D255AF7B4006C64B7 /* LaunchScreen.storyboard */,
 				5BD1FC50255AF7B4006C64B7 /* Info.plist */,
@@ -404,7 +401,6 @@
 			files = (
 				5BD1FC43255AF7B2006C64B7 /* AppDelegate.swift in Sources */,
 				5B926E99255EFEB1006A5373 /* TabBarViewController.swift in Sources */,
-				5BD1FC45255AF7B2006C64B7 /* SceneDelegate.swift in Sources */,
 				5BB0BB622562E210001F3CE3 /* TableViewController.swift in Sources */,
 				5BB0BB662562E21E001F3CE3 /* CollectionViewController.swift in Sources */,
 			);

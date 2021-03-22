@@ -30,7 +30,7 @@ class TableViewController: UIViewController {
         self.view.addSubview(tableView)
         NSLayoutConstraint.activate([
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.topAnchor.constraint(equalTo: view.topAnchor),
             view.trailingAnchor.constraint(equalTo: tableView.trailingAnchor),
             view.bottomAnchor.constraint(equalTo: tableView.bottomAnchor),
         ])
