@@ -11,16 +11,16 @@ import UIKit
 public class UICollectionViewAdapter<Header, Row : Hashable, Footer>: NSObject, UICollectionViewDataSource {
     
     public typealias OA = ObservableDataSource<Header, Row, Footer>
-    public typealias CellForRow = ((UICollectionView, IndexPath) -> UICollectionViewCell)
-    //    public typealias ViewForSection = ((UICollectionView, Int) -> String?)
+    public typealias CellForRow = ((UICollectionView, IndexPath, Row) -> UICollectionViewCell)
+    public typealias ViewForSection = ((UICollectionView, Int) -> String?)
     
     // TODO: need check on leeks
     private let observable: OA
     private let collectionView: UICollectionView
     
     public var cellForRow: CellForRow? = nil
-    //    public var titleForHeaderSection: ViewForSection? = nil
-    //    public var titleForFooterSection: ViewForSection? = nil
+    public var titleForHeaderSection: ViewForSection? = nil
+    public var titleForFooterSection: ViewForSection? = nil
     
     public init(_ collectionView: UICollectionView, observableArray: OA) {
         self.observable = observableArray
@@ -33,67 +33,40 @@ public class UICollectionViewAdapter<Header, Row : Hashable, Footer>: NSObject, 
     
     public func numberOfSections(in collectionView: UICollectionView) -> Int {
         let count = observable.array.count
-        print("Count Section = \(count)")
         return count
     }
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let count = observable.array[section].rows.count
-        print("Count Row = \(count) in Section = \(section)")
         return count
     }
     
-    //    public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-    //        return self.titleForHeaderSection?(tableView, section)
-    //    }
-    //
-    //    public func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-    //        return self.titleForFooterSection?(tableView, section)
-    //    }
-    
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let action = self.cellForRow else {
-            return UICollectionViewCell()
-        }
-        return action(collectionView, indexPath)
+        guard let action = self.cellForRow else { return UICollectionViewCell() }
+        let rowItem = observable.array[indexPath.section].rows[indexPath.row]
+        return action(collectionView, indexPath, rowItem)
     }
 }
 
 extension UICollectionViewAdapter: ObservableDataSourceDelegate {
-    public func addSection() {
-        let indexLastSection: Int = observable.array.count - 1
-//                var indexPaths = [IndexPath]()
-//        
-//                for (i, _ ) in observable.array[indexLastSection].rows.enumerated() {
-//                    indexPaths.append(.init(item: i, section: indexLastSection))
-//                }
-        
-        //        if indexLastSection == 0 {
-        //            collectionView.reloadData()
-        //        } else {
-        //            collectionView.insertItems(at: indexPaths) //[.init(row: 0, section: indexLastSection)]) //.insertSections(.init(integer: indexLastSection))
-        //        collectionView.performBatchUpdates({
-        //        collectionView.reloadData()
-//                    collectionView.insertItems(at: indexPaths)
-        collectionView.insertSections(IndexSet(integer: indexLastSection))
-        //        }, completion: nil)
-        //        }
-    }
-    
-    public func insertSection(at index: Int) {
-        collectionView.insertSections(.init(integer: index))
-    }
-    
-    public func updateSection(at index: Int) {
-        collectionView.reloadSections(.init(integer: index))
-    }
-    
-    public func removeSection(at index: Int) {
-        collectionView.deleteSections(.init(integer: index))
-    }
-    
-    public func clear() {
+    public func reload() {
         collectionView.reloadData()
+    }
+    
+    public func addSections(at indexSet: IndexSet) {
+        collectionView.insertSections(indexSet)
+    }
+    
+    public func insertSections(at indexSet: IndexSet) {
+        collectionView.insertSections(indexSet)
+    }
+    
+    public func updateSections(at indexSet: IndexSet) {
+        collectionView.reloadSections(indexSet)
+    }
+    
+    public func removeSections(at indexSet: IndexSet) {
+        collectionView.deleteSections(indexSet)
     }
     
     public func changeHeader(section: Int) {
@@ -104,34 +77,25 @@ extension UICollectionViewAdapter: ObservableDataSourceDelegate {
         collectionView.reloadSections(.init(integer: section))
     }
     
-    public func addCell(section: Int) {
-        let indexLastRow = self.observable.array[section].rows.count - 1
+    public func addCells(at indexPaths: [IndexPath]) {
         collectionView.performBatchUpdates({
-            self.collectionView.insertItems(at: [.init(row: indexLastRow, section: section)])
+            self.collectionView.insertItems(at: indexPaths)
             self.collectionView.refreshControl?.endRefreshing()
             
         }, completion: nil)
     }
     
-    public func insertCell(section: Int, at index: Int) {
-        self.collectionView.insertItems(at: [.init(row: index, section: section)])
+    public func insertCells(at indexPaths: [IndexPath]) {
+        self.collectionView.insertItems(at: indexPaths)
     }
     
-    public func updateCell(section: Int, at index: Int) {
-        self.collectionView.insertItems(at: [.init(row: index, section: section)])
+    public func updateCells(at indexPaths: [IndexPath]) {
+        self.collectionView.insertItems(at: indexPaths)
     }
     
-    public func removeCell(section: Int, at index: Int) {
+    public func removeCells(at indexPaths: [IndexPath]) {
         collectionView.performBatchUpdates({
-            self.collectionView.deleteItems(at: [.init(row: index, section: section)])
+            self.collectionView.deleteItems(at: indexPaths)
         })
-    }
-    
-    public func clearCells(section: Int, count: Int) {
-        var indexPaths: [IndexPath] = []
-        for i in 0..<count {
-            indexPaths.append(IndexPath(row: i, section: section))
-        }
-        self.collectionView.deleteItems(at: indexPaths)
     }
 }

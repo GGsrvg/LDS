@@ -10,7 +10,7 @@ import UIKit
 public class UITableViewAdapter<Header, Row : Hashable, Footer>: NSObject, UITableViewDataSource {
     
     public typealias OA = ObservableDataSource<Header, Row, Footer>
-    public typealias CellForRowAction = ((UITableView, IndexPath) -> UITableViewCell)
+    public typealias CellForRowAction = ((UITableView, IndexPath, Row) -> UITableViewCell)
     public typealias ViewForSectionAction = ((UITableView, Int) -> String?)
     
     // TODO: need check on leeks
@@ -39,37 +39,37 @@ public class UITableViewAdapter<Header, Row : Hashable, Footer>: NSObject, UITab
     public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return self.titleForHeaderSectionAction?(tableView, section)
     }
-    
+
     public func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         return self.titleForFooterSectionAction?(tableView, section)
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let action = self.cellForRowAction else { return UITableViewCell() }
-        return action(tableView, indexPath)
+        let rowItem = observable.array[indexPath.section].rows[indexPath.row]
+        return action(tableView, indexPath, rowItem)
     }
 }
 
 extension UITableViewAdapter: ObservableDataSourceDelegate {
-    public func addSection() {
-        let indexLastSection: Int = observable.array.count - 1
-        tableView.insertSections(.init(integer: indexLastSection), with: .automatic)
-    }
-    
-    public func insertSection(at index: Int) {
-        tableView.insertSections(.init(integer: index), with: .automatic)
-    }
-    
-    public func updateSection(at index: Int) {
-        tableView.reloadSections(.init(integer: index), with: .automatic)
-    }
-    
-    public func removeSection(at index: Int) {
-        tableView.deleteSections(.init(integer: index), with: .automatic)
-    }
-    
-    public func clear() {
+    public func reload() {
         tableView.reloadData()
+    }
+    
+    public func addSections(at indexSet: IndexSet) {
+        tableView.insertSections(indexSet, with: .automatic)
+    }
+    
+    public func insertSections(at indexSet: IndexSet) {
+        tableView.insertSections(indexSet, with: .automatic)
+    }
+    
+    public func updateSections(at indexSet: IndexSet) {
+        tableView.reloadSections(indexSet, with: .automatic)
+    }
+    
+    public func removeSections(at indexSet: IndexSet) {
+        tableView.deleteSections(indexSet, with: .automatic)
     }
     
     public func changeHeader(section: Int) {
@@ -80,29 +80,21 @@ extension UITableViewAdapter: ObservableDataSourceDelegate {
         tableView.reloadSections(.init(integer: section), with: .automatic)
     }
     
-    public func addCell(section: Int) {
-        let indexLasrRow = self.observable.array[section].rows.count - 1
-        self.tableView.insertRows(at: [.init(row: indexLasrRow, section: section)], with: .automatic)
-        self.tableView.refreshControl?.endRefreshing()
+    public func addCells(at indexPaths: [IndexPath]) {
+//        let indexLasrRow = self.observable.array[section].rows.count - 1
+        self.tableView.insertRows(at: indexPaths, with: .automatic)
+//        self.tableView.refreshControl?.endRefreshing()
     }
     
-    public func insertCell(section: Int, at index: Int) {
-        self.tableView.insertRows(at: [.init(row: index, section: section)], with: .automatic)
+    public func insertCells(at indexPaths: [IndexPath]) {
+        self.tableView.insertRows(at: indexPaths, with: .automatic)
     }
     
-    public func updateCell(section: Int, at index: Int) {
-        self.tableView.reloadRows(at: [.init(row: index, section: section)], with: .automatic)
+    public func updateCells(at indexPaths: [IndexPath]) {
+        self.tableView.reloadRows(at: indexPaths, with: .automatic)
     }
     
-    public func removeCell(section: Int, at index: Int) {
-        self.tableView.deleteRows(at: [.init(row: index, section: section)], with: .automatic)
-    }
-    
-    public func clearCells(section: Int, count: Int) {
-        var indexPaths: [IndexPath] = []
-        for i in 0..<count {
-            indexPaths.append(IndexPath(row: i, section: section))
-        }
-        self.tableView.deleteRows(at: indexPaths, with: .fade)
+    public func removeCells(at indexPaths: [IndexPath]) {
+        self.tableView.deleteRows(at: indexPaths, with: .automatic)
     }
 }
