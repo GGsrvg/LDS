@@ -14,11 +14,11 @@ class TableTest: XCTestCase {
     let tableView = UITableView()
     
     override func setUp() {
-        let _ = UITableViewAdapter<String, String, String>(
+        let adapter = UITableViewAdapter<String, String, String>(
             tableView,
             observableArray: observable
         )
-        tableView.dataSource = self
+        tableView.dataSource = adapter
         tableView.layoutIfNeeded()
     }
     
