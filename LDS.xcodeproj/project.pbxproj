@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5B0797AC26124EF30069D6AD /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0797AB26124EF30069D6AD /* UIColor.swift */; };
 		5B606E74255C559100926647 /* LDS.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 5B606E73255C559100926647 /* LDS.podspec */; };
 		5B606E8E255C58C000926647 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 5B606E8D255C58C000926647 /* README.md */; };
 		5B926E99255EFEB1006A5373 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B926E98255EFEB1006A5373 /* TabBarViewController.swift */; };
@@ -63,6 +64,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5B0797AB26124EF30069D6AD /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		5B606E73255C559100926647 /* LDS.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LDS.podspec; sourceTree = "<group>"; };
 		5B606E8D255C58C000926647 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		5B926E98255EFEB1006A5373 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
@@ -117,6 +119,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5B0797AA26124EE90069D6AD /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				5B0797AB26124EF30069D6AD /* UIColor.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		5B926E90255EFE6D006A5373 /* Pages */ = {
 			isa = PBXGroup;
 			children = (
@@ -209,6 +219,7 @@
 		5BD1FC41255AF7B2006C64B7 /* LDSExample */ = {
 			isa = PBXGroup;
 			children = (
+				5B0797AA26124EE90069D6AD /* Extensions */,
 				5B926E90255EFE6D006A5373 /* Pages */,
 				5BD1FC42255AF7B2006C64B7 /* AppDelegate.swift */,
 				5BD1FC4B255AF7B4006C64B7 /* Assets.xcassets */,
@@ -423,6 +434,7 @@
 				5B926E99255EFEB1006A5373 /* TabBarViewController.swift in Sources */,
 				5BB0BB622562E210001F3CE3 /* TableViewController.swift in Sources */,
 				5BB0BB662562E21E001F3CE3 /* CollectionViewController.swift in Sources */,
+				5B0797AC26124EF30069D6AD /* UIColor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -594,7 +606,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.2.8;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ggsrvg.LDS;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -623,7 +635,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.2.8;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ggsrvg.LDS;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;

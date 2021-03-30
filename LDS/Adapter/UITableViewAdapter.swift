@@ -81,9 +81,7 @@ extension UITableViewAdapter: ObservableDataSourceDelegate {
     }
     
     public func addCells(at indexPaths: [IndexPath]) {
-//        let indexLasrRow = self.observable.array[section].rows.count - 1
         self.tableView.insertRows(at: indexPaths, with: .automatic)
-//        self.tableView.refreshControl?.endRefreshing()
     }
     
     public func insertCells(at indexPaths: [IndexPath]) {

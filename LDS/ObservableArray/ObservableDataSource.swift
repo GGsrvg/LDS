@@ -77,7 +77,7 @@ extension ObservableDataSource {
         array[section].rows += elements
         notifyAddRow(at: [
             .init(
-                row: array[section].rows.count,
+                row: array[section].rows.count - 1,
                 section: section
             )
         ])

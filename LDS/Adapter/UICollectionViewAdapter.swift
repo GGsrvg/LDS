@@ -27,8 +27,6 @@ public class UICollectionViewAdapter<Header, Row : Hashable, Footer>: NSObject, 
         self.collectionView = collectionView
         super.init()
         observableArray.addCallback(self)
-        collectionView.dataSource = self
-        collectionView.layoutIfNeeded()
     }
     
     public func numberOfSections(in collectionView: UICollectionView) -> Int {

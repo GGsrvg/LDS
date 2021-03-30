@@ -11,39 +11,19 @@ import XCTest
 class TableTest: XCTestCase {
     
     let observable = ObservableDataSource<String, String, String>()
-    let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    let tableView = UITableView()
     
     override func setUp() {
-        let observable = ObservableDataSource<String, String, String>()
-
-        let adapter = UICollectionViewAdapter<String, String, String>(
-            collectionView,
+        let _ = UITableViewAdapter<String, String, String>(
+            tableView,
             observableArray: observable
         )
-        collectionView.dataSource = adapter
-        collectionView.layoutIfNeeded()
+        tableView.dataSource = self
+        tableView.layoutIfNeeded()
     }
     
     func testAdapter() throws {
         observable.set([
-            .init(
-                header: "",
-                rows: [],
-                footer: ""
-            ),
-        ])
-        
-        observable.addSections([
-            .init(
-                header: "",
-                rows: [],
-                footer: ""
-            ),
-            .init(
-                header: "",
-                rows: [],
-                footer: ""
-            ),
             .init(
                 header: "",
                 rows: [],
@@ -88,6 +68,10 @@ class TableTest: XCTestCase {
                 footer: ""
             ),
         ])
+        
+        observable.insertSections([.init(header: "", rows: [""], footer: "")], at: 0)
+        
+        observable.removeSections(at: .init(integer: 0))
         
         observable.addRows([""], section: 0)
     }

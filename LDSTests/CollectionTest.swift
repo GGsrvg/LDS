@@ -11,25 +11,16 @@ import XCTest
 class CollectionTest: XCTestCase {
     
     let observable = ObservableDataSource<String, String, String>()
-    let tableView = UITableView()
+    let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
     override func setUp() {
-        let adapter = UITableViewAdapter<String, String, String>(
-            tableView,
+        let observable = ObservableDataSource<String, String, String>()
+
+        _ = UICollectionViewAdapter<String, String, String>(
+            collectionView,
             observableArray: observable
         )
-        adapter.cellForRowAction = { _, _, _ in
-            let cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
-            return cell
-        }
-        adapter.titleForHeaderSectionAction = { _, _ in
-            return "H"
-        }
-        adapter.titleForFooterSectionAction = { _, _ in
-            return "H"
-        }
-        tableView.dataSource = adapter
-        tableView.layoutIfNeeded()
+        collectionView.layoutIfNeeded()
     }
     
     func testAdapter() throws {
