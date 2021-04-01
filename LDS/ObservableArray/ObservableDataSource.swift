@@ -83,31 +83,30 @@ extension ObservableDataSource {
         ])
     }
     
-    public func insertRow(_ elements: [Row], section: Int, at index: Int) {
-        array[section].rows.insert(contentsOf: elements, at: index)
+    public func insertRows(_ elements: [Row], indexPath: IndexPath) {
+        array[indexPath.section].rows.insert(contentsOf: elements, at: indexPath.row)
         notifyInsertRow(at: [
-            .init(row: index, section: section)
+            indexPath
         ])
     }
     
-    public func updateRow(_ element: Row, section: Int, at index: Int) {
-        array[section].rows[index] = element
+    public func updateRow(_ element: Row, indexPath: IndexPath) {
+        array[indexPath.section].rows[indexPath.row] = element
         notifyUpdateRow(at: [
-            .init(row: index, section: section)
+            indexPath
         ])
     }
     
-    public func removeRow(section: Int, at index: Int) {
-        array[section].rows.remove(at: index)
+    public func removeRow(indexPath: IndexPath) {
+        array[indexPath.section].rows.remove(at: indexPath.row)
         notifyRemoveRow(at: [
-            .init(row: index, section: section)
+            indexPath
         ])
     }
 }
 
 // work with callbacks
 extension ObservableDataSource {
-    
     private func notifyReload() {
         callbacks.forEach {
             $0.reload()
@@ -176,7 +175,7 @@ extension ObservableDataSource {
 }
 
 extension ObservableDataSource {
-    public func findIndexPath(_ element: Row) -> IndexPath? {
+    public func findRow(_ element: Row) -> IndexPath? {
         for (sectionIndex, section) in self.array.enumerated() {
             for (rowIndex, row) in section.rows.enumerated() {
                 if row == element {
@@ -184,7 +183,32 @@ extension ObservableDataSource {
                 }
             }
         }
-        
         return nil
     }
+    
+    public func getRow(at indexPath: IndexPath) -> Row? {
+        guard self.array.count < indexPath.section && indexPath.section >= 0 else {
+            return nil
+        }
+        
+        guard self.array[indexPath.section].rows.count < indexPath.row && indexPath.row >= 0 else {
+            return nil
+        }
+        
+        return self.array[indexPath.section].rows[indexPath.row]
+    }
+    
+    public func moveRow(from: IndexPath, to: IndexPath) {
+        guard let row = getRow(at: from) else { return }
+        self.removeRow(indexPath: from)
+        self.insertRows([row], indexPath: to)
+    }
+    
+//    public func swapAt(_ first: IndexPath, _ second: IndexPath) {
+//        let firstRow = self.getRow(at: first)
+//        let secondRow = self.getRow(at: second)
+//        
+//        self.removeRow(indexPath: first)
+//        self.insertRows([], indexPath: <#T##IndexPath#>)
+//    }
 }
