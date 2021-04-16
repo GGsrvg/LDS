@@ -103,6 +103,13 @@ extension ObservableDataSource {
             indexPath
         ])
     }
+    
+//    public func moveRow(from: IndexPath, to: IndexPath) {
+//        guard let row = getRow(at: from) else { return }
+//        array[from.section].rows.remove(at: indexPath.row)
+//        self.removeRow(indexPath: from)
+//        self.insertRows([row], indexPath: to)
+//    }
 }
 
 // work with callbacks
@@ -172,8 +179,15 @@ extension ObservableDataSource {
             $0.removeCells(at: indexPaths)
         }
     }
+    
+//    private func notifyMoveCell(at indexPath: IndexPath, to newIndexPath: IndexPath) {
+//        callbacks.forEach {
+//            $0.moveCell(at: indexPath, to: newIndexPath)
+//        }
+//    }
 }
 
+// sugar
 extension ObservableDataSource {
     public func findRow(_ element: Row) -> IndexPath? {
         for (sectionIndex, section) in self.array.enumerated() {
@@ -198,7 +212,15 @@ extension ObservableDataSource {
         return self.array[indexPath.section].rows[indexPath.row]
     }
     
+    public func updateRow(_ row: Row) -> Bool {
+        guard let indexPath = findRow(row) else { return false }
+        
+        self.updateRow(row, indexPath: indexPath)
+        return true
+    }
+    
     public func moveRow(from: IndexPath, to: IndexPath) {
+        // TODO: need use moveRow
         guard let row = getRow(at: from) else { return }
         self.removeRow(indexPath: from)
         self.insertRows([row], indexPath: to)
@@ -210,5 +232,5 @@ extension ObservableDataSource {
 //        
 //        self.removeRow(indexPath: first)
 //        self.insertRows([], indexPath: <#T##IndexPath#>)
-//    }
+//    }z
 }

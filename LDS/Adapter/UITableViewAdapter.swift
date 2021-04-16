@@ -72,6 +72,10 @@ extension UITableViewAdapter: ObservableDataSourceDelegate {
         tableView.deleteSections(indexSet, with: .automatic)
     }
     
+    public func moveSection(_ section: Int, toSection newSection: Int) {
+        tableView.moveSection(section, toSection: newSection)
+    }
+    
     public func changeHeader(section: Int) {
         tableView.reloadSections(.init(integer: section), with: .automatic)
     }
@@ -94,5 +98,9 @@ extension UITableViewAdapter: ObservableDataSourceDelegate {
     
     public func removeCells(at indexPaths: [IndexPath]) {
         self.tableView.deleteRows(at: indexPaths, with: .automatic)
+    }
+    
+    public func moveCell(at indexPath: IndexPath, to newIndexPath: IndexPath) {
+        tableView.moveRow(at: indexPath, to: newIndexPath)
     }
 }

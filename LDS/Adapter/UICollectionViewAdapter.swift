@@ -67,6 +67,10 @@ extension UICollectionViewAdapter: ObservableDataSourceDelegate {
         collectionView.deleteSections(indexSet)
     }
     
+    public func moveSection(_ section: Int, toSection newSection: Int) {
+        collectionView.moveSection(section, toSection: newSection)
+    }
+    
     public func changeHeader(section: Int) {
         collectionView.reloadSections(.init(integer: section))
     }
@@ -95,5 +99,9 @@ extension UICollectionViewAdapter: ObservableDataSourceDelegate {
         collectionView.performBatchUpdates({
             self.collectionView.deleteItems(at: indexPaths)
         })
+    }
+    
+    public func moveCell(at indexPath: IndexPath, to newIndexPath: IndexPath) {
+        collectionView.moveItem(at: indexPath, to: newIndexPath)
     }
 }

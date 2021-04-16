@@ -14,6 +14,7 @@ public protocol ObservableDataSourceDelegate: class {
     func insertSections(at indexSet: IndexSet)
     func updateSections(at indexSet: IndexSet)
     func removeSections(at indexSet: IndexSet)
+    func  moveSection(_ section: Int, toSection newSection: Int)
     
     func changeHeader(section: Int)
     func changeFooter(section: Int)
@@ -22,4 +23,5 @@ public protocol ObservableDataSourceDelegate: class {
     func insertCells(at indexPaths: [IndexPath])
     func updateCells(at indexPaths: [IndexPath])
     func removeCells(at indexPaths: [IndexPath])
+    func moveCell(at indexPath: IndexPath, to newIndexPath: IndexPath)
 }
