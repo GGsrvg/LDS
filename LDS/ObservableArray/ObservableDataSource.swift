@@ -16,13 +16,14 @@ public class ObservableDataSource<Header, Row, Footer>: ObservableArray where Ro
     public init(){}
     
     public func addCallback(_ callback: ObservableDataSourceDelegate) {
+        guard !callbacks.contains(where: { $0 === callback })
+        else { return }
+        
         callbacks.append(callback)
     }
     
     public func removeCallback(_ callback: ObservableDataSourceDelegate) {
-        if let index = callbacks.firstIndex(where: { $0 === callback }) {
-            callbacks.remove(at: index)
-        }
+        callbacks.removeAll(where: { $0 === callback })
     }
 }
 
@@ -201,17 +202,18 @@ extension ObservableDataSource {
     }
     
     public func getRow(at indexPath: IndexPath) -> Row? {
-        guard self.array.count < indexPath.section && indexPath.section >= 0 else {
+        guard indexPath.section >= 0 && indexPath.section < self.array.count else {
             return nil
         }
         
-        guard self.array[indexPath.section].rows.count < indexPath.row && indexPath.row >= 0 else {
+        guard indexPath.row >= 0 && indexPath.row < self.array[indexPath.section].rows.count else {
             return nil
         }
         
         return self.array[indexPath.section].rows[indexPath.row]
     }
     
+    @discardableResult
     public func updateRow(_ row: Row) -> Bool {
         guard let indexPath = findRow(row) else { return false }
         

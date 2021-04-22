@@ -9,31 +9,40 @@ import UIKit
 
 public class UITableViewAdapter<Header, Row : Hashable, Footer>: NSObject, UITableViewDataSource {
     
-    public typealias OA = ObservableDataSource<Header, Row, Footer>
+    public typealias ODS = ObservableDataSource<Header, Row, Footer>
     public typealias CellForRowAction = ((UITableView, IndexPath, Row) -> UITableViewCell)
     public typealias ViewForSectionAction = ((UITableView, Int) -> String?)
     
-    // TODO: need check on leeks
-    private let observable: OA
     private let tableView: UITableView
     
     public var cellForRowAction: CellForRowAction? = nil
     public var titleForHeaderSectionAction: ViewForSectionAction? = nil
     public var titleForFooterSectionAction: ViewForSectionAction? = nil
     
-    public init(_ tableView: UITableView, observableArray: OA) {
-        self.observable = observableArray
+    public var observableDataSource: ODS? { willSet {
+        guard let observableDataSource = newValue else {
+            self.observableDataSource?.removeCallback(self)
+            return
+        }
+        
+        observableDataSource.addCallback(self)
+    }}
+    
+    public init(_ tableView: UITableView) {
         self.tableView = tableView
         super.init()
-        observableArray.addCallback(self)
     }
     
     public func numberOfSections(in tableView: UITableView) -> Int {
-        return observable.array.count
+        guard let observableDataSource = observableDataSource else { return 0 }
+        let count = observableDataSource.array.count
+        return count
     }
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return observable.array[section].rows.count
+        guard let observableDataSource = observableDataSource else { return 0 }
+        let count = observableDataSource.array[section].rows.count
+        return count
     }
     
     public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -45,8 +54,11 @@ public class UITableViewAdapter<Header, Row : Hashable, Footer>: NSObject, UITab
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let action = self.cellForRowAction else { return UITableViewCell() }
-        let rowItem = observable.array[indexPath.section].rows[indexPath.row]
+        guard let action = self.cellForRowAction,
+              let observableDataSource = observableDataSource
+        else { return UITableViewCell() }
+        
+        let rowItem = observableDataSource.array[indexPath.section].rows[indexPath.row]
         return action(tableView, indexPath, rowItem)
     }
 }

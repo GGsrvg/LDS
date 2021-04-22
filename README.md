@@ -18,3 +18,15 @@ Replace `TARGET_NAME` and then, in the `Podfile` directory, type:
 ```bash
 $ pod install
 ```
+
+### How use in cell
+
+When you set content to cell 
+```swift
+adapter.observableDataSource = contactsObservableDataSource
+```
+
+And when cell reusing in `prepareForReuse()` method
+```swift
+adapter.observableDataSource = nil
+```

@@ -10,39 +10,53 @@ import UIKit
 // TODO: add support header and footer
 public class UICollectionViewAdapter<Header, Row : Hashable, Footer>: NSObject, UICollectionViewDataSource {
     
-    public typealias OA = ObservableDataSource<Header, Row, Footer>
+    public typealias ODS = ObservableDataSource<Header, Row, Footer>
     public typealias CellForRow = ((UICollectionView, IndexPath, Row) -> UICollectionViewCell)
-    public typealias ViewForSection = ((UICollectionView, Int) -> String?)
+    public typealias ViewForSupplementaryElementOfKind = ((UICollectionView, String, IndexPath) -> UICollectionReusableView)
     
-    // TODO: need check on leeks
-    private let observable: OA
     private let collectionView: UICollectionView
     
     public var cellForRow: CellForRow? = nil
-    public var titleForHeaderSection: ViewForSection? = nil
-    public var titleForFooterSection: ViewForSection? = nil
+    public var viewForSupplementaryElementOfKind: ViewForSupplementaryElementOfKind? = nil
     
-    public init(_ collectionView: UICollectionView, observableArray: OA) {
-        self.observable = observableArray
+    public var observableDataSource: ODS? { willSet {
+        guard let observableDataSource = newValue else {
+            self.observableDataSource?.removeCallback(self)
+            return
+        }
+        
+        observableDataSource.addCallback(self)
+    }}
+    
+    public init(_ collectionView: UICollectionView) {
         self.collectionView = collectionView
         super.init()
-        observableArray.addCallback(self)
     }
     
     public func numberOfSections(in collectionView: UICollectionView) -> Int {
-        let count = observable.array.count
+        guard let observableDataSource = observableDataSource else { return 0 }
+        let count = observableDataSource.array.count
         return count
     }
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let count = observable.array[section].rows.count
+        guard let observableDataSource = observableDataSource else { return 0 }
+        let count = observableDataSource.array[section].rows.count
         return count
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let action = self.cellForRow else { return UICollectionViewCell() }
-        let rowItem = observable.array[indexPath.section].rows[indexPath.row]
+        guard let action = self.cellForRow,
+              let observableDataSource = observableDataSource
+        else { return UICollectionViewCell() }
+        
+        let rowItem = observableDataSource.array[indexPath.section].rows[indexPath.row]
         return action(collectionView, indexPath, rowItem)
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard let action = self.viewForSupplementaryElementOfKind else { return UICollectionReusableView() }
+        return action(collectionView, kind, indexPath)
     }
 }
 
