@@ -12,12 +12,18 @@ public class UITableViewAdapter<Header, Row : Hashable, Footer>: NSObject, UITab
     public typealias ODS = ObservableDataSource<Header, Row, Footer>
     public typealias CellForRowAction = ((UITableView, IndexPath, Row) -> UITableViewCell)
     public typealias ViewForSectionAction = ((UITableView, Int) -> String?)
+    /// UICollectionView is object, Int is number of sections
+    public typealias NumberOfSections = ((UITableView, Int) -> Void)
+    /// UICollectionView is object, first Int is number of sections, second Int is number of items in section
+    public typealias NumberOfItemsInSection = ((UITableView, Int, Int) -> Void)
     
     private let tableView: UITableView
     
     public var cellForRowAction: CellForRowAction? = nil
     public var titleForHeaderSectionAction: ViewForSectionAction? = nil
     public var titleForFooterSectionAction: ViewForSectionAction? = nil
+    public var numberOfSections: NumberOfSections? = nil
+    public var numberOfItemsInSection: NumberOfItemsInSection? = nil
     
     public var observableDataSource: ODS? { willSet {
         guard let observableDataSource = newValue else {
@@ -36,12 +42,14 @@ public class UITableViewAdapter<Header, Row : Hashable, Footer>: NSObject, UITab
     public func numberOfSections(in tableView: UITableView) -> Int {
         guard let observableDataSource = observableDataSource else { return 0 }
         let count = observableDataSource.array.count
+        self.numberOfSections?(tableView, count)
         return count
     }
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let observableDataSource = observableDataSource else { return 0 }
         let count = observableDataSource.array[section].rows.count
+        self.numberOfItemsInSection?(tableView, section, count)
         return count
     }
     
@@ -55,10 +63,10 @@ public class UITableViewAdapter<Header, Row : Hashable, Footer>: NSObject, UITab
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let action = self.cellForRowAction,
-              let observableDataSource = observableDataSource
+              let observableDataSource = observableDataSource,
+              let rowItem = observableDataSource.getRow(at: indexPath)
         else { return UITableViewCell() }
         
-        let rowItem = observableDataSource.array[indexPath.section].rows[indexPath.row]
         return action(tableView, indexPath, rowItem)
     }
 }

@@ -13,11 +13,17 @@ public class UICollectionViewAdapter<Header, Row : Hashable, Footer>: NSObject, 
     public typealias ODS = ObservableDataSource<Header, Row, Footer>
     public typealias CellForRow = ((UICollectionView, IndexPath, Row) -> UICollectionViewCell)
     public typealias ViewForSupplementaryElementOfKind = ((UICollectionView, String, IndexPath) -> UICollectionReusableView)
+    /// UICollectionView is object, Int is number of sections
+    public typealias NumberOfSections = ((UICollectionView, Int) -> Void)
+    /// UICollectionView is object, first Int is number of sections, second Int is number of items in section
+    public typealias NumberOfItemsInSection = ((UICollectionView, Int, Int) -> Void)
     
     private let collectionView: UICollectionView
     
     public var cellForRow: CellForRow? = nil
     public var viewForSupplementaryElementOfKind: ViewForSupplementaryElementOfKind? = nil
+    public var numberOfSections: NumberOfSections? = nil
+    public var numberOfItemsInSection: NumberOfItemsInSection? = nil
     
     public var observableDataSource: ODS? { willSet {
         guard let observableDataSource = newValue else {
@@ -36,21 +42,23 @@ public class UICollectionViewAdapter<Header, Row : Hashable, Footer>: NSObject, 
     public func numberOfSections(in collectionView: UICollectionView) -> Int {
         guard let observableDataSource = observableDataSource else { return 0 }
         let count = observableDataSource.array.count
+        self.numberOfSections?(collectionView, count)
         return count
     }
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let observableDataSource = observableDataSource else { return 0 }
         let count = observableDataSource.array[section].rows.count
+        self.numberOfItemsInSection?(collectionView, section, count)
         return count
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let action = self.cellForRow,
-              let observableDataSource = observableDataSource
+              let observableDataSource = observableDataSource,
+              let rowItem = observableDataSource.getRow(at: indexPath)
         else { return UICollectionViewCell() }
         
-        let rowItem = observableDataSource.array[indexPath.section].rows[indexPath.row]
         return action(collectionView, indexPath, rowItem)
     }
     
