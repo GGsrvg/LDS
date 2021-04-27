@@ -50,7 +50,7 @@ extension ObservableDataSource {
     
     public func insertSections(_ elements: [SI], at index: Int) {
         array.insert(contentsOf: elements, at: index)
-        let indexSet = IndexSet(integersIn: index..<elements.count)
+        let indexSet = IndexSet(integersIn: index..<(elements.count + index))
         notifyInsert(at: indexSet)
     }
     
