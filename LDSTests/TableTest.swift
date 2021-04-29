@@ -15,9 +15,9 @@ class TableTest: XCTestCase {
     
     override func setUp() {
         let adapter = UITableViewAdapter<String, String, String>(
-            tableView,
-            observableArray: observable
+            tableView
         )
+        adapter.observableDataSource = observable
         tableView.dataSource = adapter
         tableView.layoutIfNeeded()
     }

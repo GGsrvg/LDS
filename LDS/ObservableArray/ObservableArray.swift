@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol ObservableArray: class {
+public protocol ObservableArray: AnyObject {
     func addCallback(_ callback: ObservableDataSourceDelegate)
     func removeCallback(_ callback: ObservableDataSourceDelegate)
 }

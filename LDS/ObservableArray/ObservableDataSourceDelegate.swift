@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol ObservableDataSourceDelegate: class {
+public protocol ObservableDataSourceDelegate: AnyObject {
     func reload()
     
     func addSections(at indexSet: IndexSet)

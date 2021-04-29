@@ -14,12 +14,11 @@ class CollectionTest: XCTestCase {
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
     override func setUp() {
-        let observable = ObservableDataSource<String, String, String>()
-
-        _ = UICollectionViewAdapter<String, String, String>(
-            collectionView,
-            observableArray: observable
+        let adapter = UICollectionViewAdapter<String, String, String>(
+            collectionView
         )
+        
+        adapter.observableDataSource = observable
         collectionView.layoutIfNeeded()
     }
     
