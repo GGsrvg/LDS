@@ -86,9 +86,13 @@ extension ObservableDataSource {
     
     public func insertRows(_ elements: [Row], indexPath: IndexPath) {
         array[indexPath.section].rows.insert(contentsOf: elements, at: indexPath.row)
-        notifyInsertRow(at: [
-            indexPath
-        ])
+        var insertIndexPaths: [IndexPath] = []
+        for (index, _) in elements.enumerated() {
+            var insertIndexPath = indexPath
+            insertIndexPath.row += index
+            insertIndexPaths.append(insertIndexPath)
+        }
+        notifyInsertRow(at: insertIndexPaths)
     }
     
     public func updateRow(_ element: Row, indexPath: IndexPath) {
