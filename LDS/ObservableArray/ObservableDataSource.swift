@@ -39,6 +39,10 @@ extension ObservableDataSource {
         notifyReload()
     }
     
+    public func reload() {
+        notifyReload()
+    }
+    
     public func addSections(_ elements: [SI]) {
         let beforeCount = array.count
         array += elements
@@ -194,10 +198,19 @@ extension ObservableDataSource {
 
 // sugar
 extension ObservableDataSource {
-    public func findRow(_ element: Row) -> IndexPath? {
+    public func findSection(_ elementSection: SI) -> IndexSet? {
+        for (sectionIndex, section) in self.array.enumerated() {
+            if section === elementSection {
+                return IndexSet(integer: sectionIndex)
+            }
+        }
+        return nil
+    }
+    
+    public func findRow(_ elementRow: Row) -> IndexPath? {
         for (sectionIndex, section) in self.array.enumerated() {
             for (rowIndex, row) in section.rows.enumerated() {
-                if row == element {
+                if row == elementRow {
                     return IndexPath(row: rowIndex, section: sectionIndex)
                 }
             }
