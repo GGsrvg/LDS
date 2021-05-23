@@ -1,5 +1,5 @@
 //
-//  ObservableDataSource.swift
+//  ObservableDataSourceTwoDimension.swift
 //  LDS
 //
 //  Created by GGsrvg on 10.11.2020.
@@ -7,28 +7,40 @@
 
 import Foundation
 
-public class ObservableDataSource<Header, Row, Footer>: ObservableArray where Row : Hashable {
+public class ObservableDataSourceTwoDimension<Header, Row, Footer>: ObservableDataSourceAbstract<Row> where Row : Hashable {
     public typealias SI = SectionItem<Header, Row, Footer>
     
     public private(set) var array: [SI] = []
-    private var callbacks: [ObservableDataSourceDelegate] = []
     
-    public init(){}
+    public override init() { }
     
-    public func addCallback(_ callback: ObservableDataSourceDelegate) {
-        guard !callbacks.contains(where: { $0 === callback })
-        else { return }
-        
-        callbacks.append(callback)
+    public override func numberOfSections() -> Int {
+        return array.count
     }
     
-    public func removeCallback(_ callback: ObservableDataSourceDelegate) {
-        callbacks.removeAll(where: { $0 === callback })
+    public override func numberOfRowsInSection(_ section: Int) -> Int {
+        guard section >= 0 && section < self.array.count else {
+            return 0
+        }
+        
+        return array[section].rows.count
+    }
+    
+    public override func getRow(at indexPath: IndexPath) -> Row? {
+        guard indexPath.section >= 0 && indexPath.section < self.array.count else {
+            return nil
+        }
+        
+        guard indexPath.row >= 0 && indexPath.row < self.array[indexPath.section].rows.count else {
+            return nil
+        }
+        
+        return self.array[indexPath.section].rows[indexPath.row]
     }
 }
 
 // work with array
-extension ObservableDataSource {
+extension ObservableDataSourceTwoDimension {
     public func set(_ elements: [SI]) {
         array = elements
         notifyReload()
@@ -45,7 +57,7 @@ extension ObservableDataSource {
     
     public func addSections(_ elements: [SI]) {
         let beforeCount = array.count
-        array += elements
+        array.append(contentsOf: elements)
         let afterCout = array.count
         
         let indexSet = IndexSet(integersIn: beforeCount..<afterCout)
@@ -112,92 +124,10 @@ extension ObservableDataSource {
             indexPath
         ])
     }
-    
-//    public func moveRow(from: IndexPath, to: IndexPath) {
-//        guard let row = getRow(at: from) else { return }
-//        array[from.section].rows.remove(at: indexPath.row)
-//        self.removeRow(indexPath: from)
-//        self.insertRows([row], indexPath: to)
-//    }
-}
-
-// work with callbacks
-extension ObservableDataSource {
-    private func notifyReload() {
-        callbacks.forEach {
-            $0.reload()
-        }
-    }
-    
-    private func notifyAdd(at indexSet: IndexSet) {
-        callbacks.forEach {
-            $0.addSections(at: indexSet)
-        }
-    }
-    
-    private func notifyInsert(at indexSet: IndexSet) {
-        callbacks.forEach {
-            $0.insertSections(at: indexSet)
-        }
-    }
-    
-    private func notifyUpdate(at indexSet: IndexSet) {
-        callbacks.forEach {
-            $0.updateSections(at: indexSet)
-        }
-    }
-    
-    private func notifyRemove(at indexSet: IndexSet) {
-        callbacks.forEach {
-            $0.removeSections(at: indexSet)
-        }
-    }
-    
-    private func notifyHeader(section: Int) {
-        callbacks.forEach {
-            $0.changeHeader(section: section)
-        }
-    }
-    
-    private func notifyFooter(section: Int) {
-        callbacks.forEach {
-            $0.changeFooter(section: section)
-        }
-    }
-    
-    private func notifyAddRow(at indexPaths: [IndexPath]) {
-        callbacks.forEach {
-            $0.addCells(at: indexPaths)
-        }
-    }
-    
-    private func notifyInsertRow(at indexPaths: [IndexPath]) {
-        callbacks.forEach {
-            $0.insertCells(at: indexPaths)
-        }
-    }
-    
-    private func notifyUpdateRow(at indexPaths: [IndexPath]) {
-        callbacks.forEach {
-            $0.updateCells(at: indexPaths)
-        }
-    }
-    
-    private func notifyRemoveRow(at indexPaths: [IndexPath]) {
-        callbacks.forEach {
-            $0.removeCells(at: indexPaths)
-        }
-    }
-    
-//    private func notifyMoveCell(at indexPath: IndexPath, to newIndexPath: IndexPath) {
-//        callbacks.forEach {
-//            $0.moveCell(at: indexPath, to: newIndexPath)
-//        }
-//    }
 }
 
 // sugar
-extension ObservableDataSource {
+extension ObservableDataSourceTwoDimension {
     public func findSection(_ elementSection: SI) -> IndexSet? {
         for (sectionIndex, section) in self.array.enumerated() {
             if section === elementSection {
@@ -218,18 +148,6 @@ extension ObservableDataSource {
         return nil
     }
     
-    public func getRow(at indexPath: IndexPath) -> Row? {
-        guard indexPath.section >= 0 && indexPath.section < self.array.count else {
-            return nil
-        }
-        
-        guard indexPath.row >= 0 && indexPath.row < self.array[indexPath.section].rows.count else {
-            return nil
-        }
-        
-        return self.array[indexPath.section].rows[indexPath.row]
-    }
-    
     @discardableResult
     public func updateRow(_ row: Row) -> Bool {
         guard let indexPath = findRow(row) else { return false }
@@ -244,12 +162,4 @@ extension ObservableDataSource {
         self.removeRow(indexPath: from)
         self.insertRows([row], indexPath: to)
     }
-    
-//    public func swapAt(_ first: IndexPath, _ second: IndexPath) {
-//        let firstRow = self.getRow(at: first)
-//        let secondRow = self.getRow(at: second)
-//        
-//        self.removeRow(indexPath: first)
-//        self.insertRows([], indexPath: <#T##IndexPath#>)
-//    }z
 }

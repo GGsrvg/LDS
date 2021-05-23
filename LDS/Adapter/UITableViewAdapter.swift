@@ -9,23 +9,24 @@ import UIKit
 
 public class UITableViewAdapter<Header, Row : Hashable, Footer>: NSObject, UITableViewDataSource {
     
-    public typealias ODS = ObservableDataSource<Header, Row, Footer>
-    public typealias CellForRowAction = ((UITableView, IndexPath, Row) -> UITableViewCell)
-    public typealias ViewForSectionAction = ((UITableView, Int) -> String?)
+    public typealias ODS = ObservableDataSourceAbstract<Row>
+    
+    public typealias CellForRowHandler = ((UITableView, IndexPath, Row) -> UITableViewCell)
+    public typealias ViewForSectionHandler = ((UITableView, Int) -> String?)
     /// UICollectionView is object, Int is number of sections
-    public typealias NumberOfSections = ((UITableView, Int) -> Void)
+    public typealias NumberOfSectionsHandler = ((UITableView, Int) -> Void)
     /// UICollectionView is object, first Int is number of sections, second Int is number of items in section
-    public typealias NumberOfItemsInSection = ((UITableView, Int, Int) -> Void)
+    public typealias NumberOfItemsInSectionHandler = ((UITableView, Int, Int) -> Void)
     
     private let tableView: UITableView
     
-    public var cellForRowAction: CellForRowAction? = nil
-    public var titleForHeaderSectionAction: ViewForSectionAction? = nil
-    public var titleForFooterSectionAction: ViewForSectionAction? = nil
-    public var numberOfSections: NumberOfSections? = nil
-    public var numberOfItemsInSection: NumberOfItemsInSection? = nil
+    public var cellForRowHandler: CellForRowHandler? = nil
+    public var titleForHeaderSectionHandler: ViewForSectionHandler? = nil
+    public var titleForFooterSectionHandler: ViewForSectionHandler? = nil
+    public var numberOfSectionsHandler: NumberOfSectionsHandler? = nil
+    public var numberOfItemsInSectionHandler: NumberOfItemsInSectionHandler? = nil
     
-    public var observableDataSource: ODS? { willSet {
+    public weak var observableDataSource: ODS? { willSet {
         guard let observableDataSource = newValue else {
             self.observableDataSource?.removeCallback(self)
             return
@@ -41,67 +42,67 @@ public class UITableViewAdapter<Header, Row : Hashable, Footer>: NSObject, UITab
     
     public func numberOfSections(in tableView: UITableView) -> Int {
         guard let observableDataSource = observableDataSource else { return 0 }
-        let count = observableDataSource.array.count
-        self.numberOfSections?(tableView, count)
+        let count = observableDataSource.numberOfSections() //.array.count
+        self.numberOfSectionsHandler?(tableView, count)
         return count
     }
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let observableDataSource = observableDataSource else { return 0 }
-        let count = observableDataSource.array[section].rows.count
-        self.numberOfItemsInSection?(tableView, section, count)
+        let count = observableDataSource.numberOfRowsInSection(section) // .array[section].rows.count
+        self.numberOfItemsInSectionHandler?(tableView, section, count)
         return count
     }
     
     public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return self.titleForHeaderSectionAction?(tableView, section)
+        return self.titleForHeaderSectionHandler?(tableView, section)
     }
 
     public func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        return self.titleForFooterSectionAction?(tableView, section)
+        return self.titleForFooterSectionHandler?(tableView, section)
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let action = self.cellForRowAction,
+        guard let handler = self.cellForRowHandler,
               let observableDataSource = observableDataSource,
               let rowItem = observableDataSource.getRow(at: indexPath)
         else { return UITableViewCell() }
         
-        return action(tableView, indexPath, rowItem)
+        return handler(tableView, indexPath, rowItem)
     }
 }
 
-extension UITableViewAdapter: ObservableDataSourceDelegate {
+extension UITableViewAdapter: ObservableDataSourceUpdating {
     public func reload() {
-        tableView.reloadData()
+        self.tableView.reloadData()
     }
     
     public func addSections(at indexSet: IndexSet) {
-        tableView.insertSections(indexSet, with: .automatic)
+        self.tableView.insertSections(indexSet, with: .automatic)
     }
     
     public func insertSections(at indexSet: IndexSet) {
-        tableView.insertSections(indexSet, with: .automatic)
+        self.tableView.insertSections(indexSet, with: .automatic)
     }
     
     public func updateSections(at indexSet: IndexSet) {
-        tableView.reloadSections(indexSet, with: .automatic)
+        self.tableView.reloadSections(indexSet, with: .automatic)
     }
     
     public func removeSections(at indexSet: IndexSet) {
-        tableView.deleteSections(indexSet, with: .automatic)
+        self.tableView.deleteSections(indexSet, with: .automatic)
     }
     
     public func moveSection(_ section: Int, toSection newSection: Int) {
-        tableView.moveSection(section, toSection: newSection)
+        self.tableView.moveSection(section, toSection: newSection)
     }
     
     public func changeHeader(section: Int) {
-        tableView.reloadSections(.init(integer: section), with: .automatic)
+        self.tableView.reloadSections(.init(integer: section), with: .automatic)
     }
     
     public func changeFooter(section: Int) {
-        tableView.reloadSections(.init(integer: section), with: .automatic)
+        self.tableView.reloadSections(.init(integer: section), with: .automatic)
     }
     
     public func addCells(at indexPaths: [IndexPath]) {
@@ -121,6 +122,6 @@ extension UITableViewAdapter: ObservableDataSourceDelegate {
     }
     
     public func moveCell(at indexPath: IndexPath, to newIndexPath: IndexPath) {
-        tableView.moveRow(at: indexPath, to: newIndexPath)
+        self.tableView.moveRow(at: indexPath, to: newIndexPath)
     }
 }

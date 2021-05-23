@@ -19,6 +19,21 @@ Replace `TARGET_NAME` and then, in the `Podfile` directory, type:
 $ pod install
 ```
 
+### Have problems work with UICollectionView
+
+### How use in view controller
+
+ViewDidLoad 
+```swift
+adapter.observableDataSource = contactsObservableDataSource
+```
+
+And deinit
+```swift
+deinit {
+    adapter.observableDataSource = nil
+}
+```
 ### How use in cell
 
 When you set content to cell 

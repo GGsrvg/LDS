@@ -10,45 +10,55 @@ import LDS
 
 class TableViewController: UITableViewController {
     
-    let colors: [UIColor] = [
-        .purple,
-        .yellow,
-        .blue,
-        .orange,
-        .cyan,
-        .red,
-        .green,
-        .init(rgb: 0x800000),
-        .init(rgb: 0x8B0000),
-        .init(rgb: 0x778899),
-        .init(rgb: 0xF0FFF0),
-        .init(rgb: 0x8A2BE2),
-        .init(rgb: 0xE0FFFF),
-        .init(rgb: 0xFF7F50),
-        .init(rgb: 0xE0FFFF),
-        .init(rgb: 0x191970),
-        .init(rgb: 0x00BFFF),
-        .init(rgb: 0xFFDAB9),
-        .init(rgb: 0xBA55D3),
-        .init(rgb: 0xFFFF00),
-        .init(rgb: 0x1E90FF),
+    var colors: [UIColor] = [
+        .init(rgb: 0xff0000),
+        .init(rgb: 0xff4000),
+        .init(rgb: 0xff8000),
+        .init(rgb: 0xffbf00),
+        .init(rgb: 0xffff00),
+        .init(rgb: 0xbfff00),
+        .init(rgb: 0x80ff00),
+        .init(rgb: 0x40ff00),
+        .init(rgb: 0x00ff00),
+        .init(rgb: 0x00ff40),
+        .init(rgb: 0x00ff80),
+        .init(rgb: 0x00ffbf),
+        .init(rgb: 0x00ffff),
+        .init(rgb: 0x00bfff),
+        .init(rgb: 0x0080ff),
+        .init(rgb: 0x0040ff),
+        .init(rgb: 0x0000ff),
+        .init(rgb: 0x4000ff),
+        .init(rgb: 0x8000ff),
+        .init(rgb: 0xbf00ff),
+        .init(rgb: 0xff00ff),
+        .init(rgb: 0xff00bf),
+        .init(rgb: 0xff0080),
+        .init(rgb: 0xff0040),
     ]
     
-    let observable: ObservableDataSource<String?, UIColor, String?> = .init()
+    let observable: LDS.ObservableDataSourceOneDimension<UIColor> = .init()
     
     var adapter: UITableViewAdapter<String?, UIColor, String?>!
+    
+    init() {
+        super.init(nibName: nil, bundle: nil)
+        self.colors = self.colors.shuffled()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.rowHeight = 24
         
-        adapter = .init(
-            tableView,
-            observableArray: observable
-        )
+        adapter = .init(tableView)
+        adapter.observableDataSource = observable
         
-        adapter.cellForRowAction = { tableView, indexPath, row in
+        adapter.cellForRowHandler = { tableView, indexPath, row in
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell") ?? UITableViewCell(style: .default, reuseIdentifier: "cell")
     //        cell.textLabel?.text = "\(observable.array[indexPath.section].rows[indexPath.row])"
             cell.backgroundColor = row
@@ -57,13 +67,7 @@ class TableViewController: UITableViewController {
         
         tableView.dataSource = adapter
         
-        observable.set([
-            .init(
-                header: nil,
-                rows: colors,
-                footer: nil
-            )
-        ])
+        observable.set(colors)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -72,16 +76,17 @@ class TableViewController: UITableViewController {
     }
     
     func sort() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2), execute: {
-            for i in 0..<(self.observable.array[0].rows.count) {
-                for j in 1..<(self.observable.array[0].rows.count - i) {
-                    let jValue = self.observable.array[0].rows[j]
-                    let temp = self.observable.array[0].rows[j - 1]
+        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + .milliseconds(300), execute: {
+            for i in 0..<(self.observable.array.count) {
+                for j in 1..<(self.observable.array.count - i) {
+                    let jValue = self.observable.array[j]
+                    let temp = self.observable.array[j - 1]
                     
                     if jValue.hue < temp.hue {
-                        
-                        self.observable.updateRow(jValue, section: 0, at: j - 1)
-                        self.observable.updateRow(temp, section: 0, at: j)
+                        DispatchQueue.main.sync {
+                            self.observable.updateRow(jValue, at: j - 1)
+                            self.observable.updateRow(temp, at: j)
+                        }
                     }
                 }
             }

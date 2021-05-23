@@ -10,7 +10,7 @@ import XCTest
 
 class TableTest: XCTestCase {
     
-    let observable = ObservableDataSource<String, String, String>()
+    let observable = ObservableDataSourceTwoDimension<String, String, String>()
     let tableView = UITableView()
     
     override func setUp() {

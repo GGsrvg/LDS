@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name         = "LDS"
-  spec.version      = "1.1.6"
+  spec.version      = "2.0.0"
   spec.summary      = "LDS"
   spec.description  = <<-DESC
 Easy Data Source

@@ -10,22 +10,23 @@ import UIKit
 // TODO: add support header and footer
 public class UICollectionViewAdapter<Header, Row : Hashable, Footer>: NSObject, UICollectionViewDataSource {
     
-    public typealias ODS = ObservableDataSource<Header, Row, Footer>
-    public typealias CellForRow = ((UICollectionView, IndexPath, Row) -> UICollectionViewCell)
-    public typealias ViewForSupplementaryElementOfKind = ((UICollectionView, String, IndexPath) -> UICollectionReusableView)
+    public typealias ODS = ObservableDataSourceAbstract<Row>
+   
+    public typealias CellForRowHandler = ((UICollectionView, IndexPath, Row) -> UICollectionViewCell)
+    public typealias ViewForSupplementaryElementOfKindHandler = ((UICollectionView, String, IndexPath) -> UICollectionReusableView)
     /// UICollectionView is object, Int is number of sections
-    public typealias NumberOfSections = ((UICollectionView, Int) -> Void)
+    public typealias NumberOfSectionsHandler = ((UICollectionView, Int) -> Void)
     /// UICollectionView is object, first Int is number of sections, second Int is number of items in section
-    public typealias NumberOfItemsInSection = ((UICollectionView, Int, Int) -> Void)
+    public typealias NumberOfItemsInSectionHandler = ((UICollectionView, Int, Int) -> Void)
     
     private let collectionView: UICollectionView
     
-    public var cellForRow: CellForRow? = nil
-    public var viewForSupplementaryElementOfKind: ViewForSupplementaryElementOfKind? = nil
-    public var numberOfSections: NumberOfSections? = nil
-    public var numberOfItemsInSection: NumberOfItemsInSection? = nil
+    public var cellForRowHandler: CellForRowHandler? = nil
+    public var viewForSupplementaryElementOfKindHandler: ViewForSupplementaryElementOfKindHandler? = nil
+    public var numberOfSectionsHandler: NumberOfSectionsHandler? = nil
+    public var numberOfItemsInSectionHandler: NumberOfItemsInSectionHandler? = nil
     
-    public var observableDataSource: ODS? { willSet {
+    public weak var observableDataSource: ODS? { willSet {
         guard let observableDataSource = newValue else {
             self.observableDataSource?.removeCallback(self)
             return
@@ -41,72 +42,71 @@ public class UICollectionViewAdapter<Header, Row : Hashable, Footer>: NSObject, 
     
     public func numberOfSections(in collectionView: UICollectionView) -> Int {
         guard let observableDataSource = observableDataSource else { return 0 }
-        let count = observableDataSource.array.count
-        self.numberOfSections?(collectionView, count)
+        let count = observableDataSource.numberOfSections()
+        self.numberOfSectionsHandler?(collectionView, count)
         return count
     }
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let observableDataSource = observableDataSource else { return 0 }
-        let count = observableDataSource.array[section].rows.count
-        self.numberOfItemsInSection?(collectionView, section, count)
+        let count = observableDataSource.numberOfRowsInSection(section)
+        self.numberOfItemsInSectionHandler?(collectionView, section, count)
         return count
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let action = self.cellForRow,
+        guard let handler = self.cellForRowHandler,
               let observableDataSource = observableDataSource,
               let rowItem = observableDataSource.getRow(at: indexPath)
         else { return UICollectionViewCell() }
         
-        return action(collectionView, indexPath, rowItem)
+        return handler(collectionView, indexPath, rowItem)
     }
     
     public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard let action = self.viewForSupplementaryElementOfKind else { return UICollectionReusableView() }
+        guard let action = self.viewForSupplementaryElementOfKindHandler else { return UICollectionReusableView() }
         return action(collectionView, kind, indexPath)
     }
 }
 
-extension UICollectionViewAdapter: ObservableDataSourceDelegate {
+extension UICollectionViewAdapter: ObservableDataSourceUpdating {
     public func reload() {
-        collectionView.reloadData()
+        self.collectionView.reloadData()
     }
     
     public func addSections(at indexSet: IndexSet) {
-        collectionView.insertSections(indexSet)
+//        print(indexSet)
+//        self.collectionView.performBatchUpdates({
+            self.collectionView.insertSections(indexSet)
+//        }, completion: nil)
     }
     
     public func insertSections(at indexSet: IndexSet) {
-        collectionView.insertSections(indexSet)
+        self.collectionView.insertSections(indexSet)
     }
     
     public func updateSections(at indexSet: IndexSet) {
-        collectionView.reloadSections(indexSet)
+        self.collectionView.reloadSections(indexSet)
     }
     
     public func removeSections(at indexSet: IndexSet) {
-        collectionView.deleteSections(indexSet)
+        self.collectionView.deleteSections(indexSet)
     }
     
     public func moveSection(_ section: Int, toSection newSection: Int) {
-        collectionView.moveSection(section, toSection: newSection)
+        self.collectionView.moveSection(section, toSection: newSection)
     }
     
     public func changeHeader(section: Int) {
-        collectionView.reloadSections(.init(integer: section))
+        self.collectionView.reloadSections(.init(integer: section))
     }
     
     public func changeFooter(section: Int) {
-        collectionView.reloadSections(.init(integer: section))
+        self.collectionView.reloadSections(.init(integer: section))
     }
     
     public func addCells(at indexPaths: [IndexPath]) {
-        collectionView.performBatchUpdates({
-            self.collectionView.insertItems(at: indexPaths)
-            self.collectionView.refreshControl?.endRefreshing()
-            
-        }, completion: nil)
+        self.collectionView.insertItems(at: indexPaths)
     }
     
     public func insertCells(at indexPaths: [IndexPath]) {
@@ -114,16 +114,14 @@ extension UICollectionViewAdapter: ObservableDataSourceDelegate {
     }
     
     public func updateCells(at indexPaths: [IndexPath]) {
-        self.collectionView.insertItems(at: indexPaths)
+        self.collectionView.reloadItems(at: indexPaths)
     }
     
     public func removeCells(at indexPaths: [IndexPath]) {
-        collectionView.performBatchUpdates({
-            self.collectionView.deleteItems(at: indexPaths)
-        })
+        self.collectionView.deleteItems(at: indexPaths)
     }
     
     public func moveCell(at indexPath: IndexPath, to newIndexPath: IndexPath) {
-        collectionView.moveItem(at: indexPath, to: newIndexPath)
+        self.collectionView.moveItem(at: indexPath, to: newIndexPath)
     }
 }
