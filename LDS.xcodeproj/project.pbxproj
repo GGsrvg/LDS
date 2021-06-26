@@ -69,6 +69,7 @@
 		5B0797AB26124EF30069D6AD /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		5B23F17E2654C32700FA1A08 /* ObservableDataSourceAbstract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableDataSourceAbstract.swift; sourceTree = "<group>"; };
 		5B23F1812654C7B800FA1A08 /* ObservableDataSourceOneDimension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableDataSourceOneDimension.swift; sourceTree = "<group>"; };
+		5B243ABC2687704F00AB880D /* Package.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		5B606E73255C559100926647 /* LDS.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LDS.podspec; sourceTree = "<group>"; };
 		5B606E8D255C58C000926647 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		5B926E98255EFEB1006A5373 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
@@ -177,6 +178,7 @@
 			isa = PBXGroup;
 			children = (
 				5B606E8D255C58C000926647 /* README.md */,
+				5B243ABC2687704F00AB880D /* Package.swift */,
 				5B606E73255C559100926647 /* LDS.podspec */,
 				5BD1FC22255AF761006C64B7 /* LDS */,
 				5BD1FC2D255AF761006C64B7 /* LDSTests */,
