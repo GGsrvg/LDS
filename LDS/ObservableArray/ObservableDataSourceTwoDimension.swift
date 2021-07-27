@@ -91,13 +91,15 @@ extension ObservableDataSourceTwoDimension {
     }
     
     public func addRows(_ elements: [Row], section: Int) {
+        let indexPath = IndexPath(row: array[section].rows.count, section: section)
         array[section].rows += elements
-        notifyAddRow(at: [
-            .init(
-                row: array[section].rows.count - 1,
-                section: section
-            )
-        ])
+        var addIndexPaths: [IndexPath] = []
+        for (index, _) in elements.enumerated() {
+            var addIndexPath = indexPath
+            addIndexPath.row += index
+            addIndexPaths.append(addIndexPath)
+        }
+        notifyAddRow(at: addIndexPaths)
     }
     
     public func insertRows(_ elements: [Row], indexPath: IndexPath) {

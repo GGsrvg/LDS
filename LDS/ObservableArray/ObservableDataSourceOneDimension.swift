@@ -48,21 +48,23 @@ extension ObservableDataSourceOneDimension {
     }
 
     public func addRows(_ elements: [Row]) {
+        let beforeArrayCount = array.count
         array += elements
-        notifyAddRow(at: [
-            .init(
-                row: array.count - 1,
-                section: sectionIndex
-            )
-        ])
+        var addIndexPaths: [IndexPath] = []
+        for (index, _) in elements.enumerated() {
+            let addIndexPath = IndexPath(row: beforeArrayCount + index,
+                                         section: 0)
+            addIndexPaths.append(addIndexPath)
+        }
+        notifyAddRow(at: addIndexPaths)
     }
 
     public func insertRows(_ elements: [Row], at row: Int) {
         array.insert(contentsOf: elements, at: row)
         var insertIndexPaths: [IndexPath] = []
         for (index, _) in elements.enumerated() {
-            var insertIndexPath = IndexPath(row: row, section: 0)
-            insertIndexPath.row += index
+            let insertIndexPath = IndexPath(row: row + index,
+                                            section: 0)
             insertIndexPaths.append(insertIndexPath)
         }
         notifyInsertRow(at: insertIndexPaths)
