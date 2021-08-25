@@ -7,7 +7,7 @@
 
 import UIKit
 
-public class UITableViewAdapter<Header, Row : Hashable, Footer>: NSObject, UITableViewDataSource {
+public class UITableViewAdapter<Header, Row: Equatable, Footer>: NSObject, UITableViewDataSource {
     
     public typealias ODS = ObservableDataSourceAbstract<Row>
     
@@ -26,11 +26,11 @@ public class UITableViewAdapter<Header, Row : Hashable, Footer>: NSObject, UITab
     public var numberOfSectionsHandler: NumberOfSectionsHandler? = nil
     public var numberOfItemsInSectionHandler: NumberOfItemsInSectionHandler? = nil
     
-    public weak var observableDataSource: ODS? { willSet {
-        guard let observableDataSource = newValue else {
-            self.observableDataSource?.removeCallback(self)
-            return
-        }
+    public weak var observableDataSource: ODS? { didSet {
+        oldValue?.removeCallback(self)
+        
+        guard let observableDataSource = observableDataSource
+        else { return }
         
         observableDataSource.addCallback(self)
     }}

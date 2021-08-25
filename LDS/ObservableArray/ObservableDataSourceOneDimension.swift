@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class ObservableDataSourceOneDimension<Row>: ObservableDataSourceAbstract<Row> where Row : Hashable {
+public class ObservableDataSourceOneDimension<Row>: ObservableDataSourceAbstract<Row> where Row : Equatable {
     private let sectionIndex = 0
     
     public private(set) var array: [Row] = []
@@ -84,3 +84,39 @@ extension ObservableDataSourceOneDimension {
         ])
     }
 }
+
+// sugar
+extension ObservableDataSourceOneDimension {
+    public func findRow(_ elementRow: Row) -> IndexPath? {
+        for (rowIndex, row) in self.array.enumerated() {
+            if row == elementRow {
+                return IndexPath(row: rowIndex, section: sectionIndex)
+            }
+        }
+        return nil
+    }
+    
+    @discardableResult
+    public func updateRow(_ row: Row) -> Bool {
+        guard let indexPath = findRow(row) else { return false }
+        
+        self.updateRow(row, at: indexPath.row)
+        return true
+    }
+    
+    /**
+     Moving row from to.
+     
+     If moving successful complete return true, another false.
+     */
+    @discardableResult
+    public func moveRow(from fromRow: Int, to toRow: Int) -> Bool {
+        // TODO: need use moveRow
+        guard let row = getRow(at: IndexPath(row: fromRow, section: 0))
+        else { return false }
+        self.removeRow(at: fromRow)
+        self.insertRows([row], at: toRow)
+        return true
+    }
+}
+

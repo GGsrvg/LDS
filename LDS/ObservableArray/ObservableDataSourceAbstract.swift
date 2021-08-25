@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class ObservableDataSourceAbstract<Row>: ObservableArray where Row : Hashable  {
+public class ObservableDataSourceAbstract<Row>: ObservableArray where Row : Equatable  {
     
     var callbacks: [ObservableDataSourceUpdating] = []
     

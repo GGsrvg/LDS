@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class ObservableDataSourceTwoDimension<Header, Row, Footer>: ObservableDataSourceAbstract<Row> where Row : Hashable {
+public class ObservableDataSourceTwoDimension<Header, Row, Footer>: ObservableDataSourceAbstract<Row> where Row : Equatable {
     public typealias SI = SectionItem<Header, Row, Footer>
     
     public private(set) var array: [SI] = []

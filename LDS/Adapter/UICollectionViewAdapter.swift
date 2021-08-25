@@ -8,7 +8,7 @@
 import UIKit
 
 // TODO: add support header and footer
-public class UICollectionViewAdapter<Header, Row : Hashable, Footer>: NSObject, UICollectionViewDataSource {
+public class UICollectionViewAdapter<Header, Row: Equatable, Footer>: NSObject, UICollectionViewDataSource {
     
     public typealias ODS = ObservableDataSourceAbstract<Row>
    
@@ -26,11 +26,11 @@ public class UICollectionViewAdapter<Header, Row : Hashable, Footer>: NSObject, 
     public var numberOfSectionsHandler: NumberOfSectionsHandler? = nil
     public var numberOfItemsInSectionHandler: NumberOfItemsInSectionHandler? = nil
     
-    public weak var observableDataSource: ODS? { willSet {
-        guard let observableDataSource = newValue else {
-            self.observableDataSource?.removeCallback(self)
-            return
-        }
+    public weak var observableDataSource: ODS? { didSet {
+        oldValue?.removeCallback(self)
+        
+        guard let observableDataSource = observableDataSource
+        else { return }
         
         observableDataSource.addCallback(self)
     }}
