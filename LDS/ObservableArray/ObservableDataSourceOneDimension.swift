@@ -69,19 +69,25 @@ extension ObservableDataSourceOneDimension {
         }
         notifyInsertRow(at: insertIndexPaths)
     }
-
-    public func updateRow(_ element: Row, at row: Int) {
+    
+    public func replaceRow(_ element: Row, at row: Int) {
         array[row] = element
         notifyUpdateRow(at: [
             IndexPath(row: row, section: sectionIndex)
         ])
     }
-
-    public func removeRow(at row: Int) {
-        array.remove(at: row)
-        notifyRemoveRow(at: [
-            IndexPath(row: row, section: sectionIndex)
-        ])
+    
+    public func updateRows(_ elements: [Row]) {
+        let indexPaths: [IndexPath] = self.findRows(elements)
+        
+        notifyUpdateRow(at: indexPaths)
+    }
+    
+    public func removeRows(_ elements: [Row]) {
+        let indexPaths: [IndexPath] = self.findRows(elements)
+        
+        array.removeAll(where: { elements.contains($0) } )
+        notifyRemoveRow(at: indexPaths)
     }
 }
 
@@ -96,26 +102,44 @@ extension ObservableDataSourceOneDimension {
         return nil
     }
     
-    @discardableResult
-    public func updateRow(_ row: Row) -> Bool {
-        guard let indexPath = findRow(row) else { return false }
+    public func findRows(_ elements: [Row]) -> [IndexPath] {
+        var indexPaths: [IndexPath] = []
         
-        self.updateRow(row, at: indexPath.row)
-        return true
+        elements.forEach { element in
+            if let indexRow = self.findRow(element) {
+                indexPaths.append(indexRow)
+            }
+        }
+        
+        return indexPaths
+    }
+}
+
+// deprecated
+extension ObservableDataSourceOneDimension {
+    
+    @available(*, deprecated, renamed: "removeRows(at:)")
+    public func removeRow(at row: Int) {
+        array.remove(at: row)
+        notifyRemoveRow(at: [
+            IndexPath(row: row, section: sectionIndex)
+        ])
     }
     
-    /**
-     Moving row from to.
-     
-     If moving successful complete return true, another false.
-     */
+    @available(*, deprecated, renamed: "updateRows(_:)")
+    public func updateRow(_ element: Row, at row: Int) {
+        array[row] = element
+        notifyUpdateRow(at: [
+            IndexPath(row: row, section: sectionIndex)
+        ])
+    }
+    
     @discardableResult
-    public func moveRow(from fromRow: Int, to toRow: Int) -> Bool {
-        // TODO: need use moveRow
-        guard let row = getRow(at: IndexPath(row: fromRow, section: 0))
-        else { return false }
-        self.removeRow(at: fromRow)
-        self.insertRows([row], at: toRow)
+    @available(*, deprecated, renamed: "updateRows(_:)")
+    public func updateRow(_ row: Row) -> Bool {
+        guard let indexRow = findRow(row) else { return false }
+
+        self.updateRow(row, at: indexRow.row)
         return true
     }
 }
