@@ -37,7 +37,7 @@ class CollectionViewController: UICollectionViewController {
         .init(rgb: 0xff0040),
     ]
     
-    let observable: ObservableDataSourceTwoDimension<String, UIColor, String> = .init()
+    let observable: ObservableArrayTwoDimension<String, UIColor, String> = .init()
     
     var adapter: UICollectionViewAdapter<String, UIColor, String>!
     

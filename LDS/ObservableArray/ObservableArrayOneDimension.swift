@@ -1,5 +1,5 @@
 //
-//  ObservableDataSourceOneDimension.swift
+//  ObservableArrayOneDimension.swift
 //  LDS
 //
 //  Created by GGsrvg on 19.05.2021.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class ObservableDataSourceOneDimension<Row>: ObservableDataSourceAbstract<Row> where Row : Equatable {
+public class ObservableArrayOneDimension<Row>: ObservableArrayAbstract<Row> where Row : Equatable {
     private let sectionIndex = 0
     
     public private(set) var array: [Row] = []
@@ -32,7 +32,7 @@ public class ObservableDataSourceOneDimension<Row>: ObservableDataSourceAbstract
 }
 
 // work with array
-extension ObservableDataSourceOneDimension {
+extension ObservableArrayOneDimension {
     public func set(_ elements: [Row]) {
         array = elements
         notifyReload()
@@ -92,7 +92,7 @@ extension ObservableDataSourceOneDimension {
 }
 
 // sugar
-extension ObservableDataSourceOneDimension {
+extension ObservableArrayOneDimension {
     public func findRow(_ elementRow: Row) -> IndexPath? {
         for (rowIndex, row) in self.array.enumerated() {
             if row == elementRow {
@@ -116,7 +116,7 @@ extension ObservableDataSourceOneDimension {
 }
 
 // deprecated
-extension ObservableDataSourceOneDimension {
+extension ObservableArrayOneDimension {
     
     @available(*, deprecated, renamed: "removeRows(at:)")
     public func removeRow(at row: Int) {

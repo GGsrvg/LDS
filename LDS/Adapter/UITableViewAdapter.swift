@@ -9,7 +9,7 @@ import UIKit
 
 public class UITableViewAdapter<Header, Row: Equatable, Footer>: NSObject, UITableViewDataSource {
     
-    public typealias ODS = ObservableDataSourceAbstract<Row>
+    public typealias ODS = ObservableArrayAbstract<Row>
     
     public typealias CellForRowHandler = ((UITableView, IndexPath, Row) -> UITableViewCell)
     public typealias ViewForSectionHandler = ((UITableView, Int) -> String?)
@@ -17,14 +17,6 @@ public class UITableViewAdapter<Header, Row: Equatable, Footer>: NSObject, UITab
     public typealias NumberOfSectionsHandler = ((UITableView, Int) -> Void)
     /// UICollectionView is object, first Int is number of sections, second Int is number of items in section
     public typealias NumberOfItemsInSectionHandler = ((UITableView, Int, Int) -> Void)
-    
-    private let tableView: UITableView
-    
-    public var cellForRowHandler: CellForRowHandler? = nil
-    public var titleForHeaderSectionHandler: ViewForSectionHandler? = nil
-    public var titleForFooterSectionHandler: ViewForSectionHandler? = nil
-    public var numberOfSectionsHandler: NumberOfSectionsHandler? = nil
-    public var numberOfItemsInSectionHandler: NumberOfItemsInSectionHandler? = nil
     
     public weak var observableDataSource: ODS? { didSet {
         oldValue?.removeCallback(self)
@@ -35,21 +27,41 @@ public class UITableViewAdapter<Header, Row: Equatable, Footer>: NSObject, UITab
         observableDataSource.addCallback(self)
     }}
     
-    public init(_ tableView: UITableView) {
+    private let tableView: UITableView
+    
+    private let cellForRowHandler: CellForRowHandler
+    private let titleForHeaderSectionHandler: ViewForSectionHandler?
+    private let titleForFooterSectionHandler: ViewForSectionHandler?
+    private let numberOfSectionsHandler: NumberOfSectionsHandler?
+    private let numberOfItemsInSectionHandler: NumberOfItemsInSectionHandler?
+    
+    public init(
+        _ tableView: UITableView,
+        cellForRowHandler: @escaping CellForRowHandler,
+        titleForHeaderSectionHandler: ViewForSectionHandler?,
+        titleForFooterSectionHandler: ViewForSectionHandler?,
+        numberOfSectionsHandler: NumberOfSectionsHandler?,
+        numberOfItemsInSectionHandler: NumberOfItemsInSectionHandler?
+    ) {
         self.tableView = tableView
+        self.cellForRowHandler = cellForRowHandler
+        self.titleForHeaderSectionHandler = titleForHeaderSectionHandler
+        self.titleForFooterSectionHandler = titleForFooterSectionHandler
+        self.numberOfSectionsHandler = numberOfSectionsHandler
+        self.numberOfItemsInSectionHandler = numberOfItemsInSectionHandler
         super.init()
     }
     
     public func numberOfSections(in tableView: UITableView) -> Int {
         guard let observableDataSource = observableDataSource else { return 0 }
-        let count = observableDataSource.numberOfSections() //.array.count
+        let count = observableDataSource.numberOfSections()
         self.numberOfSectionsHandler?(tableView, count)
         return count
     }
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let observableDataSource = observableDataSource else { return 0 }
-        let count = observableDataSource.numberOfRowsInSection(section) // .array[section].rows.count
+        let count = observableDataSource.numberOfRowsInSection(section)
         self.numberOfItemsInSectionHandler?(tableView, section, count)
         return count
     }
@@ -63,16 +75,15 @@ public class UITableViewAdapter<Header, Row: Equatable, Footer>: NSObject, UITab
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let handler = self.cellForRowHandler,
-              let observableDataSource = observableDataSource,
+        guard let observableDataSource = observableDataSource,
               let rowItem = observableDataSource.getRow(at: indexPath)
         else { return UITableViewCell() }
         
-        return handler(tableView, indexPath, rowItem)
+        return self.cellForRowHandler(tableView, indexPath, rowItem)
     }
 }
 
-extension UITableViewAdapter: ObservableDataSourceUpdating {
+extension UITableViewAdapter: ObservableArrayDelegate {
     public func reload() {
         self.tableView.reloadData()
     }

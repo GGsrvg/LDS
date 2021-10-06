@@ -1,5 +1,5 @@
 //
-//  ObservableDataSourceTwoDimension.swift
+//  ObservableArrayTwoDimension.swift
 //  LDS
 //
 //  Created by GGsrvg on 10.11.2020.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class ObservableDataSourceTwoDimension<Header, Row, Footer>: ObservableDataSourceAbstract<Row> where Row : Equatable {
+public class ObservableArrayTwoDimension<Header, Row, Footer>: ObservableArrayAbstract<Row> where Row : Equatable {
     public typealias SI = SectionItem<Header, Row, Footer>
     
     public private(set) var array: [SI] = []
@@ -40,7 +40,7 @@ public class ObservableDataSourceTwoDimension<Header, Row, Footer>: ObservableDa
 }
 
 // work with array
-extension ObservableDataSourceTwoDimension {
+extension ObservableArrayTwoDimension {
     public func set(_ elements: [SI]) {
         array = elements
         notifyReload()
@@ -129,7 +129,7 @@ extension ObservableDataSourceTwoDimension {
 }
 
 // sugar
-extension ObservableDataSourceTwoDimension {
+extension ObservableArrayTwoDimension {
     public func findSection(_ elementSection: SI) -> IndexSet? {
         for (sectionIndex, section) in self.array.enumerated() {
             if section === elementSection {

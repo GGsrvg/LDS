@@ -1,5 +1,5 @@
 //
-//  ObservableDataSourceUpdating.swift
+//  ObservableArray.swift
 //  LDS
 //
 //  Created by GGsrvg on 10.11.2020.
@@ -7,14 +7,14 @@
 
 import Foundation
 
-public protocol ObservableDataSourceUpdating: AnyObject {
+public protocol ObservableArrayDelegate: AnyObject {
     func reload()
     
     func addSections(at indexSet: IndexSet)
     func insertSections(at indexSet: IndexSet)
     func updateSections(at indexSet: IndexSet)
     func removeSections(at indexSet: IndexSet)
-    func  moveSection(_ section: Int, toSection newSection: Int)
+    func moveSection(_ section: Int, toSection newSection: Int)
     
     func changeHeader(section: Int)
     func changeFooter(section: Int)

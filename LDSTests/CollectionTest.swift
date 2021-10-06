@@ -10,7 +10,7 @@ import XCTest
 
 class CollectionTest: XCTestCase {
     
-    let observable = ObservableDataSourceTwoDimension<String, String, String>()
+    let observable = ObservableArrayTwoDimension<String, String, String>()
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
     override func setUp() {

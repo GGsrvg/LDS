@@ -7,10 +7,9 @@
 
 import UIKit
 
-// TODO: add support header and footer
 public class UICollectionViewAdapter<Header, Row: Equatable, Footer>: NSObject, UICollectionViewDataSource {
     
-    public typealias ODS = ObservableDataSourceAbstract<Row>
+    public typealias ODS = ObservableArrayAbstract<Row>
    
     public typealias CellForRowHandler = ((UICollectionView, IndexPath, Row) -> UICollectionViewCell)
     public typealias ViewForSupplementaryElementOfKindHandler = ((UICollectionView, String, IndexPath) -> UICollectionReusableView)
@@ -18,13 +17,6 @@ public class UICollectionViewAdapter<Header, Row: Equatable, Footer>: NSObject, 
     public typealias NumberOfSectionsHandler = ((UICollectionView, Int) -> Void)
     /// UICollectionView is object, first Int is number of sections, second Int is number of items in section
     public typealias NumberOfItemsInSectionHandler = ((UICollectionView, Int, Int) -> Void)
-    
-    private let collectionView: UICollectionView
-    
-    public var cellForRowHandler: CellForRowHandler? = nil
-    public var viewForSupplementaryElementOfKindHandler: ViewForSupplementaryElementOfKindHandler? = nil
-    public var numberOfSectionsHandler: NumberOfSectionsHandler? = nil
-    public var numberOfItemsInSectionHandler: NumberOfItemsInSectionHandler? = nil
     
     public weak var observableDataSource: ODS? { didSet {
         oldValue?.removeCallback(self)
@@ -35,8 +27,25 @@ public class UICollectionViewAdapter<Header, Row: Equatable, Footer>: NSObject, 
         observableDataSource.addCallback(self)
     }}
     
-    public init(_ collectionView: UICollectionView) {
+    private let collectionView: UICollectionView
+    
+    private let cellForRowHandler: CellForRowHandler
+    private let viewForSupplementaryElementOfKindHandler: ViewForSupplementaryElementOfKindHandler?
+    private let numberOfSectionsHandler: NumberOfSectionsHandler?
+    private let numberOfItemsInSectionHandler: NumberOfItemsInSectionHandler?
+    
+    public init(
+        _ collectionView: UICollectionView,
+        cellForRowHandler: @escaping CellForRowHandler,
+        viewForSupplementaryElementOfKindHandler: ViewForSupplementaryElementOfKindHandler?,
+        numberOfSectionsHandler: NumberOfSectionsHandler?,
+        numberOfItemsInSectionHandler: NumberOfItemsInSectionHandler?
+    ) {
         self.collectionView = collectionView
+        self.cellForRowHandler = cellForRowHandler
+        self.viewForSupplementaryElementOfKindHandler = viewForSupplementaryElementOfKindHandler
+        self.numberOfSectionsHandler = numberOfSectionsHandler
+        self.numberOfItemsInSectionHandler = numberOfItemsInSectionHandler
         super.init()
     }
     
@@ -55,12 +64,11 @@ public class UICollectionViewAdapter<Header, Row: Equatable, Footer>: NSObject, 
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let handler = self.cellForRowHandler,
-              let observableDataSource = observableDataSource,
+        guard let observableDataSource = observableDataSource,
               let rowItem = observableDataSource.getRow(at: indexPath)
         else { return UICollectionViewCell() }
         
-        return handler(collectionView, indexPath, rowItem)
+        return self.cellForRowHandler(collectionView, indexPath, rowItem)
     }
     
     public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -69,16 +77,13 @@ public class UICollectionViewAdapter<Header, Row: Equatable, Footer>: NSObject, 
     }
 }
 
-extension UICollectionViewAdapter: ObservableDataSourceUpdating {
+extension UICollectionViewAdapter: ObservableArrayDelegate {
     public func reload() {
         self.collectionView.reloadData()
     }
     
     public func addSections(at indexSet: IndexSet) {
-//        print(indexSet)
-//        self.collectionView.performBatchUpdates({
-            self.collectionView.insertSections(indexSet)
-//        }, completion: nil)
+        self.collectionView.insertSections(indexSet)
     }
     
     public func insertSections(at indexSet: IndexSet) {

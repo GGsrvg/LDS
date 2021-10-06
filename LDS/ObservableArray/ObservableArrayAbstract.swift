@@ -1,5 +1,5 @@
 //
-//  ObservableDataSourceAbstract.swift
+//  ObservableArrayAbstract.swift
 //  LDS
 //
 //  Created by GGsrvg on 19.05.2021.
@@ -7,20 +7,20 @@
 
 import Foundation
 
-public class ObservableDataSourceAbstract<Row>: ObservableArray where Row : Equatable  {
+public class ObservableArrayAbstract<Row>: ObservableArray where Row : Equatable  {
     
-    var callbacks: [ObservableDataSourceUpdating] = []
+    var callbacks: [ObservableArrayDelegate] = []
     
     init() { }
     
-    public func addCallback(_ callback: ObservableDataSourceUpdating) {
+    public func addCallback(_ callback: ObservableArrayDelegate) {
         guard !callbacks.contains(where: { $0 === callback })
         else { return }
         
         callbacks.append(callback)
     }
     
-    public func removeCallback(_ callback: ObservableDataSourceUpdating) {
+    public func removeCallback(_ callback: ObservableArrayDelegate) {
         callbacks.removeAll(where: { $0 === callback })
     }
     
@@ -32,7 +32,7 @@ public class ObservableDataSourceAbstract<Row>: ObservableArray where Row : Equa
 }
 
 // work with updating
-extension ObservableDataSourceAbstract {
+extension ObservableArrayAbstract {
     func notifyReload() {
         callbacks.forEach {
             $0.reload()

@@ -37,7 +37,7 @@ class TableViewController: UITableViewController {
         .init(rgb: 0xff0040),
     ]
     
-    let observable: LDS.ObservableDataSourceOneDimension<UIColor> = .init()
+    let observable: LDS.ObservableArrayOneDimension<UIColor> = .init()
     
     var adapter: UITableViewAdapter<String?, UIColor, String?>!
     
@@ -84,8 +84,8 @@ class TableViewController: UITableViewController {
                     
                     if jValue.hue < temp.hue {
                         DispatchQueue.main.sync {
-                            self.observable.updateRow(jValue, at: j - 1)
-                            self.observable.updateRow(temp, at: j)
+                            self.observable.replaceRow(jValue, at: j - 1)
+                            self.observable.replaceRow(temp, at: j)
                         }
                     }
                 }

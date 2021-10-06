@@ -8,6 +8,6 @@
 import Foundation
 
 public protocol ObservableArray: AnyObject {
-    func addCallback(_ callback: ObservableDataSourceUpdating)
-    func removeCallback(_ callback: ObservableDataSourceUpdating)
+    func addCallback(_ callback: ObservableArrayDelegate)
+    func removeCallback(_ callback: ObservableArrayDelegate)
 }
