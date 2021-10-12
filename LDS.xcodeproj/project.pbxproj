@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		5B0797AC26124EF30069D6AD /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0797AB26124EF30069D6AD /* UIColor.swift */; };
 		5B23F17F2654C32700FA1A08 /* ObservableArrayAbstract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B23F17E2654C32700FA1A08 /* ObservableArrayAbstract.swift */; };
-		5B23F1822654C7B800FA1A08 /* ObservableArrayOneDimension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B23F1812654C7B800FA1A08 /* ObservableArrayOneDimension.swift */; };
+		5B2B686F27117CD100765F99 /* ObservableArrayNotify.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2B686E27117CD100765F99 /* ObservableArrayNotify.swift */; };
 		5B606E74255C559100926647 /* LDS.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 5B606E73255C559100926647 /* LDS.podspec */; };
 		5B606E8E255C58C000926647 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 5B606E8D255C58C000926647 /* README.md */; };
 		5B926E99255EFEB1006A5373 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B926E98255EFEB1006A5373 /* TabBarViewController.swift */; };
@@ -25,12 +25,13 @@
 		5BD1FC4F255AF7B4006C64B7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BD1FC4D255AF7B4006C64B7 /* LaunchScreen.storyboard */; };
 		5BD1FC5A255AF7EE006C64B7 /* UICollectionViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD1FC59255AF7EE006C64B7 /* UICollectionViewAdapter.swift */; };
 		5BD1FC5F255AF801006C64B7 /* UITableViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD1FC5E255AF801006C64B7 /* UITableViewAdapter.swift */; };
-		5BD1FC73255AF85A006C64B7 /* ObservableArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD1FC72255AF85A006C64B7 /* ObservableArray.swift */; };
-		5BD1FC78255AF86B006C64B7 /* ObservableArrayTwoDimension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD1FC77255AF86B006C64B7 /* ObservableArrayTwoDimension.swift */; };
+		5BD1FC73255AF85A006C64B7 /* ObservableArraySubscribe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD1FC72255AF85A006C64B7 /* ObservableArraySubscribe.swift */; };
+		5BD1FC78255AF86B006C64B7 /* ObservableArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD1FC77255AF86B006C64B7 /* ObservableArray.swift */; };
 		5BD1FC7E255AF8AD006C64B7 /* ObservableArrayDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD1FC7D255AF8AD006C64B7 /* ObservableArrayDelegate.swift */; };
 		5BD1FC87255AF8C3006C64B7 /* SectionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD1FC86255AF8C3006C64B7 /* SectionItem.swift */; };
 		5BD1FC98255AF927006C64B7 /* LDS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BD1FC20255AF761006C64B7 /* LDS.framework */; };
 		5BD1FC99255AF927006C64B7 /* LDS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5BD1FC20255AF761006C64B7 /* LDS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5BD9149C270EAE540059FDAB /* SectionItemPrototype.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD9149B270EAE540059FDAB /* SectionItemPrototype.swift */; };
 		5BF3D202261075C800960A47 /* TableTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF3D201261075C800960A47 /* TableTest.swift */; };
 		5BF3D206261075D200960A47 /* CollectionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF3D205261075D200960A47 /* CollectionTest.swift */; };
 /* End PBXBuildFile section */
@@ -69,7 +70,7 @@
 /* Begin PBXFileReference section */
 		5B0797AB26124EF30069D6AD /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		5B23F17E2654C32700FA1A08 /* ObservableArrayAbstract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableArrayAbstract.swift; sourceTree = "<group>"; };
-		5B23F1812654C7B800FA1A08 /* ObservableArrayOneDimension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableArrayOneDimension.swift; sourceTree = "<group>"; };
+		5B2B686E27117CD100765F99 /* ObservableArrayNotify.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableArrayNotify.swift; sourceTree = "<group>"; };
 		5B606E73255C559100926647 /* LDS.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LDS.podspec; sourceTree = "<group>"; };
 		5B606E8D255C58C000926647 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		5B926E98255EFEB1006A5373 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
@@ -90,10 +91,11 @@
 		5BD1FC50255AF7B4006C64B7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5BD1FC59255AF7EE006C64B7 /* UICollectionViewAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollectionViewAdapter.swift; sourceTree = "<group>"; };
 		5BD1FC5E255AF801006C64B7 /* UITableViewAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewAdapter.swift; sourceTree = "<group>"; };
-		5BD1FC72255AF85A006C64B7 /* ObservableArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableArray.swift; sourceTree = "<group>"; };
-		5BD1FC77255AF86B006C64B7 /* ObservableArrayTwoDimension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableArrayTwoDimension.swift; sourceTree = "<group>"; };
+		5BD1FC72255AF85A006C64B7 /* ObservableArraySubscribe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableArraySubscribe.swift; sourceTree = "<group>"; };
+		5BD1FC77255AF86B006C64B7 /* ObservableArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableArray.swift; sourceTree = "<group>"; };
 		5BD1FC7D255AF8AD006C64B7 /* ObservableArrayDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableArrayDelegate.swift; sourceTree = "<group>"; };
 		5BD1FC86255AF8C3006C64B7 /* SectionItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionItem.swift; sourceTree = "<group>"; };
+		5BD9149B270EAE540059FDAB /* SectionItemPrototype.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionItemPrototype.swift; sourceTree = "<group>"; };
 		5BF3D201261075C800960A47 /* TableTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableTest.swift; sourceTree = "<group>"; };
 		5BF3D205261075D200960A47 /* CollectionTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionTest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -238,10 +240,10 @@
 		5BD1FC57255AF7CF006C64B7 /* ObservableArray */ = {
 			isa = PBXGroup;
 			children = (
-				5BD1FC72255AF85A006C64B7 /* ObservableArray.swift */,
+				5BD1FC72255AF85A006C64B7 /* ObservableArraySubscribe.swift */,
+				5B2B686E27117CD100765F99 /* ObservableArrayNotify.swift */,
 				5B23F17E2654C32700FA1A08 /* ObservableArrayAbstract.swift */,
-				5B23F1812654C7B800FA1A08 /* ObservableArrayOneDimension.swift */,
-				5BD1FC77255AF86B006C64B7 /* ObservableArrayTwoDimension.swift */,
+				5BD1FC77255AF86B006C64B7 /* ObservableArray.swift */,
 				5BD1FC7D255AF8AD006C64B7 /* ObservableArrayDelegate.swift */,
 			);
 			path = ObservableArray;
@@ -259,8 +261,8 @@
 		5BD1FC85255AF8BE006C64B7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				5BD1FC86255AF8C3006C64B7 /* SectionItem.swift */,
-				5BAAFD9927057BAE00BD0850 /* RowItem.swift */,
+				5BD9149A270EAE1B0059FDAB /* RowItem */,
+				5BD91499270EAE110059FDAB /* SectionItem */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -270,6 +272,23 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5BD91499270EAE110059FDAB /* SectionItem */ = {
+			isa = PBXGroup;
+			children = (
+				5BD1FC86255AF8C3006C64B7 /* SectionItem.swift */,
+				5BD9149B270EAE540059FDAB /* SectionItemPrototype.swift */,
+			);
+			path = SectionItem;
+			sourceTree = "<group>";
+		};
+		5BD9149A270EAE1B0059FDAB /* RowItem */ = {
+			isa = PBXGroup;
+			children = (
+				5BAAFD9927057BAE00BD0850 /* RowItem.swift */,
+			);
+			path = RowItem;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -415,12 +434,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B2B686F27117CD100765F99 /* ObservableArrayNotify.swift in Sources */,
 				5BD1FC87255AF8C3006C64B7 /* SectionItem.swift in Sources */,
 				5BD1FC7E255AF8AD006C64B7 /* ObservableArrayDelegate.swift in Sources */,
-				5BD1FC73255AF85A006C64B7 /* ObservableArray.swift in Sources */,
-				5B23F1822654C7B800FA1A08 /* ObservableArrayOneDimension.swift in Sources */,
+				5BD1FC73255AF85A006C64B7 /* ObservableArraySubscribe.swift in Sources */,
 				5B23F17F2654C32700FA1A08 /* ObservableArrayAbstract.swift in Sources */,
-				5BD1FC78255AF86B006C64B7 /* ObservableArrayTwoDimension.swift in Sources */,
+				5BD9149C270EAE540059FDAB /* SectionItemPrototype.swift in Sources */,
+				5BD1FC78255AF86B006C64B7 /* ObservableArray.swift in Sources */,
 				5BD1FC5A255AF7EE006C64B7 /* UICollectionViewAdapter.swift in Sources */,
 				5BD1FC5F255AF801006C64B7 /* UITableViewAdapter.swift in Sources */,
 				5B9BE31F260C558F00EA1805 /* RangeReplaceableCollection.swift in Sources */,
@@ -602,6 +622,7 @@
 		5BD1FC35255AF761006C64B7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -632,6 +653,7 @@
 		5BD1FC36255AF761006C64B7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;

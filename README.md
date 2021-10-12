@@ -9,7 +9,7 @@ LDS is List Data Source
 use_frameworks!
 
 target 'TARGET_NAME' do
-    pod 'LDS', '~> 1.0'
+    pod 'LDS'
 end
 ```
 

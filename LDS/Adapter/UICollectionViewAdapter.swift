@@ -7,7 +7,7 @@
 
 import UIKit
 
-public class UICollectionViewAdapter<Header, Row: Equatable, Footer>: NSObject, UICollectionViewDataSource {
+public class UICollectionViewAdapter<Header, Row: RowItem, Footer>: NSObject, UICollectionViewDataSource {
     
     public typealias ODS = ObservableArrayAbstract<Row>
    

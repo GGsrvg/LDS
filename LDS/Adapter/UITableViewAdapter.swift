@@ -7,15 +7,15 @@
 
 import UIKit
 
-public class UITableViewAdapter<Header, Row: Equatable, Footer>: NSObject, UITableViewDataSource {
+public class UITableViewAdapter<Header, Row: RowItem, Footer>: NSObject, UITableViewDataSource {
     
     public typealias ODS = ObservableArrayAbstract<Row>
     
     public typealias CellForRowHandler = ((UITableView, IndexPath, Row) -> UITableViewCell)
     public typealias ViewForSectionHandler = ((UITableView, Int) -> String?)
-    /// UICollectionView is object, Int is number of sections
+    /// UITableView is object, Int is number of sections
     public typealias NumberOfSectionsHandler = ((UITableView, Int) -> Void)
-    /// UICollectionView is object, first Int is number of sections, second Int is number of items in section
+    /// UITableView is object, first Int is number of sections, second Int is number of items in section
     public typealias NumberOfItemsInSectionHandler = ((UITableView, Int, Int) -> Void)
     
     public weak var observableDataSource: ODS? { didSet {

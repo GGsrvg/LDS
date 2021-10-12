@@ -37,7 +37,7 @@ class CollectionViewController: UICollectionViewController {
         .init(rgb: 0xff0040),
     ]
     
-    let observable: ObservableArrayTwoDimension<String, UIColor, String> = .init()
+//    let observable: ObservableArray<String, UIColor, String> = .init()
     
     var adapter: UICollectionViewAdapter<String, UIColor, String>!
     
@@ -61,14 +61,18 @@ class CollectionViewController: UICollectionViewController {
             layout.minimumLineSpacing = 2
         }
         
-        adapter = .init(collectionView)
-        adapter.observableDataSource = observable
-        
-        adapter.cellForRowHandler = { collectionView, indexPath, row in
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
-            cell.backgroundColor = row
-            return cell
-        }
+//        adapter = .init(
+//            collectionView,
+//            cellForRowHandler:  { collectionView, indexPath, row in
+//                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
+//                cell.backgroundColor = row
+//                return cell
+//            },
+//            viewForSupplementaryElementOfKindHandler: nil,
+//            numberOfSectionsHandler: nil,
+//            numberOfItemsInSectionHandler: nil
+//        )
+//        adapter.observableDataSource = observable
         
         collectionView.dataSource = adapter
         
@@ -100,65 +104,65 @@ class CollectionViewController: UICollectionViewController {
     }
     
     func testAdapter() {
-        observable.set([
-            .init(
-                header: "",
-                rows: [.blue],
-                footer: ""
-            ),
-            .init(
-                header: "",
-                rows: [.blue],
-                footer: ""
-            ),
-        ])
-        
-//        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + .milliseconds(300), execute: {
-//            DispatchQueue.main.sync {
-                self.observable.addSections([
-                    .init(
-                        header: "",
-                        rows: [.magenta],
-                        footer: ""
-                    ),
-                    .init(
-                        header: "",
-                        rows: [.systemYellow],
-                        footer: ""
-                    ),
-                    .init(
-                        header: "",
-                        rows: [.red],
-                        footer: ""
-                    ),
-                ])
-//            }
-//        })
-        
-        observable.clear()
+//        observable.set([
+//            .init(
+//                header: "",
+//                rows: [.blue],
+//                footer: ""
+//            ),
+//            .init(
+//                header: "",
+//                rows: [.blue],
+//                footer: ""
+//            ),
+//        ])
+//
+////        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + .milliseconds(300), execute: {
+////            DispatchQueue.main.sync {
+//                self.observable.addSections([
+//                    .init(
+//                        header: "",
+//                        rows: [.magenta],
+//                        footer: ""
+//                    ),
+//                    .init(
+//                        header: "",
+//                        rows: [.systemYellow],
+//                        footer: ""
+//                    ),
+//                    .init(
+//                        header: "",
+//                        rows: [.red],
+//                        footer: ""
+//                    ),
+//                ])
+////            }
+////        })
+//
+//        observable.clear()
+//
+//        observable.addSections([
+//            .init(
+//                header: "",
+//                rows: [.cyan, .darkGray],
+//                footer: ""
+//            ),
+//            .init(
+//                header: "",
+//                rows: [.purple, .brown],
+//                footer: ""
+//            ),
+//            .init(
+//                header: "",
+//                rows: [.green, .yellow],
+//                footer: ""
+//            ),
+//        ])
 
-        observable.addSections([
-            .init(
-                header: "",
-                rows: [.cyan, .darkGray],
-                footer: ""
-            ),
-            .init(
-                header: "",
-                rows: [.purple, .brown],
-                footer: ""
-            ),
-            .init(
-                header: "",
-                rows: [.green, .yellow],
-                footer: ""
-            ),
-        ])
-
-        observable.insertSections([.init(header: "", rows: [.red], footer: "")], at: 0)
-
-        observable.removeSections(at: .init(integer: 0))
-
-        observable.addRows([.blue], section: 0)
+//        observable.insertSections([.init(header: "", rows: [.red], footer: "")], at: 0)
+//
+//        observable.removeSections(at: .init(integer: 0))
+//
+//        observable.addRows([.blue], section: 0)
     }
 }

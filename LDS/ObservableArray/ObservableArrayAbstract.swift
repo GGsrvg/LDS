@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class ObservableArrayAbstract<Row>: ObservableArray where Row : Equatable  {
+public class ObservableArrayAbstract<Row>: ObservableArraySubscribe where Row : RowItem  {
     
     var callbacks: [ObservableArrayDelegate] = []
     
@@ -32,68 +32,68 @@ public class ObservableArrayAbstract<Row>: ObservableArray where Row : Equatable
 }
 
 // work with updating
-extension ObservableArrayAbstract {
-    func notifyReload() {
+extension ObservableArrayAbstract: ObservableArrayNotify {
+    public func notifyReload() {
         callbacks.forEach {
             $0.reload()
         }
     }
     
-    func notifyAdd(at indexSet: IndexSet) {
+    public func notifyAdd(at indexSet: IndexSet) {
         callbacks.forEach {
             $0.addSections(at: indexSet)
         }
     }
     
-    func notifyInsert(at indexSet: IndexSet) {
+    public func notifyInsert(at indexSet: IndexSet) {
         callbacks.forEach {
             $0.insertSections(at: indexSet)
         }
     }
     
-    func notifyUpdate(at indexSet: IndexSet) {
+    public func notifyUpdate(at indexSet: IndexSet) {
         callbacks.forEach {
             $0.updateSections(at: indexSet)
         }
     }
     
-    func notifyRemove(at indexSet: IndexSet) {
+    public func notifyRemove(at indexSet: IndexSet) {
         callbacks.forEach {
             $0.removeSections(at: indexSet)
         }
     }
     
-    func notifyHeader(section: Int) {
+    public func notifyHeader(section: Int) {
         callbacks.forEach {
             $0.changeHeader(section: section)
         }
     }
     
-    func notifyFooter(section: Int) {
+    public func notifyFooter(section: Int) {
         callbacks.forEach {
             $0.changeFooter(section: section)
         }
     }
     
-    func notifyAddRow(at indexPaths: [IndexPath]) {
+    public func notifyAddRow(at indexPaths: [IndexPath]) {
         callbacks.forEach {
             $0.addCells(at: indexPaths)
         }
     }
     
-    func notifyInsertRow(at indexPaths: [IndexPath]) {
+    public func notifyInsertRow(at indexPaths: [IndexPath]) {
         callbacks.forEach {
             $0.insertCells(at: indexPaths)
         }
     }
     
-    func notifyUpdateRow(at indexPaths: [IndexPath]) {
+    public func notifyUpdateRow(at indexPaths: [IndexPath]) {
         callbacks.forEach {
             $0.updateCells(at: indexPaths)
         }
     }
     
-    func notifyRemoveRow(at indexPaths: [IndexPath]) {
+    public func notifyRemoveRow(at indexPaths: [IndexPath]) {
         callbacks.forEach {
             $0.removeCells(at: indexPaths)
         }
