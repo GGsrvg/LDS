@@ -7,18 +7,19 @@
 
 import Foundation
 
-public class ObservableArray<SI: SectionItemPrototype>: ObservableArrayAbstract<SI.Row> {
-//    public typealias SI = SectionItem<Header, Row, Footer>
+public class ObservableArray<SI: SectionItemPrototype> {
+    
+    private var callbacks: [ObservableArrayDelegate] = []
     
     public private(set) var array: [SI] = []
     
-    public override init() { }
+    public init() { }
     
-    public override func numberOfSections() -> Int {
+    public func numberOfSections() -> Int {
         return array.count
     }
     
-    public override func numberOfRowsInSection(_ section: Int) -> Int {
+    public func numberOfRowsInSection(_ section: Int) -> Int {
         guard section >= 0 && section < self.array.count else {
             return 0
         }
@@ -26,7 +27,7 @@ public class ObservableArray<SI: SectionItemPrototype>: ObservableArrayAbstract<
         return array[section].rows.count
     }
     
-    public override func getRow(at indexPath: IndexPath) -> SI.Row? {
+    public func getRow(at indexPath: IndexPath) -> SI.Row? {
         guard indexPath.section >= 0 && indexPath.section < self.array.count else {
             return nil
         }
@@ -37,16 +38,32 @@ public class ObservableArray<SI: SectionItemPrototype>: ObservableArrayAbstract<
         
         return self.array[indexPath.section].rows[indexPath.row]
     }
+    
+    private func setSectionDelegate(_ elements: [SI]) {
+        elements.forEach {
+            $0.delegate = self
+            $0.observableArray = self
+        }
+    }
+    
+    private func removeSectionDelegate(_ elements: [SI]) {
+        elements.forEach {
+            $0.delegate = nil
+            $0.observableArray = nil
+        }
+    }
 }
 
 // work with array
 extension ObservableArray {
     public func set(_ elements: [SI]) {
+        setSectionDelegate(elements)
         array = elements
         notifyReload()
     }
     
     public func clear() {
+        removeSectionDelegate(array)
         array = []
         notifyReload()
     }
@@ -56,6 +73,8 @@ extension ObservableArray {
     }
     
     public func addSections(_ elements: [SI]) {
+        setSectionDelegate(elements)
+        
         let beforeCount = array.count
         array.append(contentsOf: elements)
         let afterCout = array.count
@@ -65,6 +84,8 @@ extension ObservableArray {
     }
     
     public func insertSections(_ elements: [SI], at index: Int) {
+        setSectionDelegate(elements)
+        
         array.insert(contentsOf: elements, at: index)
         let indexSet = IndexSet(integersIn: index..<(elements.count + index))
         notifyInsert(at: indexSet)
@@ -76,6 +97,7 @@ extension ObservableArray {
     }
     
     public func removeSections(at indexSet: IndexSet) {
+        removeSectionDelegate(array.objects(at: indexSet))
         array.remove(at: indexSet)
         notifyRemove(at: indexSet)
     }
@@ -139,10 +161,10 @@ extension ObservableArray {
 
 // sugar
 extension ObservableArray {
-    public func findSection(_ elementSection: SI) -> IndexSet? {
+    public func findSection(_ elementSection: SI) -> Int? {
         for (sectionIndex, section) in self.array.enumerated() {
             if section == elementSection {
-                return IndexSet(integer: sectionIndex)
+                return sectionIndex
             }
         }
         return nil
@@ -168,4 +190,95 @@ extension ObservableArray {
         return true
     }
     
+}
+
+extension ObservableArray: ObservableArraySubscribe {
+    public func addCallback(_ callback: ObservableArrayDelegate) {
+        guard !callbacks.contains(where: { $0 === callback })
+        else { return }
+
+        callbacks.append(callback)
+    }
+
+    public func removeCallback(_ callback: ObservableArrayDelegate) {
+        callbacks.removeAll(where: { $0 === callback })
+    }
+}
+
+// work with updating
+extension ObservableArray: ObservableArrayNotify {
+    public func notifyReload() {
+        callbacks.forEach {
+            $0.reload()
+        }
+    }
+    
+    public func notifyAdd(at indexSet: IndexSet) {
+        callbacks.forEach {
+            $0.addSections(at: indexSet)
+        }
+    }
+    
+    public func notifyInsert(at indexSet: IndexSet) {
+        callbacks.forEach {
+            $0.insertSections(at: indexSet)
+        }
+    }
+    
+    public func notifyUpdate(at indexSet: IndexSet) {
+        callbacks.forEach {
+            $0.updateSections(at: indexSet)
+        }
+    }
+    
+    public func notifyRemove(at indexSet: IndexSet) {
+        callbacks.forEach {
+            $0.removeSections(at: indexSet)
+        }
+    }
+    
+    public func notifyHeader(section: Int) {
+        callbacks.forEach {
+            $0.changeHeader(section: section)
+        }
+    }
+    
+    public func notifyFooter(section: Int) {
+        callbacks.forEach {
+            $0.changeFooter(section: section)
+        }
+    }
+    
+    public func notifyAddRow(at indexPaths: [IndexPath]) {
+        callbacks.forEach {
+            $0.addCells(at: indexPaths)
+        }
+    }
+    
+    public func notifyInsertRow(at indexPaths: [IndexPath]) {
+        callbacks.forEach {
+            $0.insertCells(at: indexPaths)
+        }
+    }
+    
+    public func notifyUpdateRow(at indexPaths: [IndexPath]) {
+        callbacks.forEach {
+            $0.updateCells(at: indexPaths)
+        }
+    }
+    
+    public func notifyRemoveRow(at indexPaths: [IndexPath]) {
+        callbacks.forEach {
+            $0.removeCells(at: indexPaths)
+        }
+    }
+}
+
+extension ObservableArray: SectionItemDelegate {
+    public func sectionItemIndex<SIP>(_ sectionItem: SIP) -> Int? where SIP : SectionItemPrototype {
+        guard let sectionItem = sectionItem as? SI
+        else { return nil }
+        
+        return self.findSection(sectionItem)
+    }
 }

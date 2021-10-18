@@ -7,24 +7,24 @@
 
 import UIKit
 
-public class UICollectionViewAdapter<Header, Row: RowItem, Footer>: NSObject, UICollectionViewDataSource {
+public class UICollectionViewAdapter<SI: SectionItemPrototype>: NSObject, UICollectionViewDataSource {
     
-    public typealias ODS = ObservableArrayAbstract<Row>
+    public typealias OBS = ObservableArray<SI>
    
-    public typealias CellForRowHandler = ((UICollectionView, IndexPath, Row) -> UICollectionViewCell)
+    public typealias CellForRowHandler = ((UICollectionView, IndexPath, SI.Row) -> UICollectionViewCell)
     public typealias ViewForSupplementaryElementOfKindHandler = ((UICollectionView, String, IndexPath) -> UICollectionReusableView)
     /// UICollectionView is object, Int is number of sections
     public typealias NumberOfSectionsHandler = ((UICollectionView, Int) -> Void)
     /// UICollectionView is object, first Int is number of sections, second Int is number of items in section
     public typealias NumberOfItemsInSectionHandler = ((UICollectionView, Int, Int) -> Void)
     
-    public weak var observableDataSource: ODS? { didSet {
+    public weak var observableArray: OBS? { didSet {
         oldValue?.removeCallback(self)
         
-        guard let observableDataSource = observableDataSource
+        guard let observableArray = observableArray
         else { return }
         
-        observableDataSource.addCallback(self)
+        observableArray.addCallback(self)
     }}
     
     private let collectionView: UICollectionView
@@ -50,21 +50,21 @@ public class UICollectionViewAdapter<Header, Row: RowItem, Footer>: NSObject, UI
     }
     
     public func numberOfSections(in collectionView: UICollectionView) -> Int {
-        guard let observableDataSource = observableDataSource else { return 0 }
+        guard let observableDataSource = observableArray else { return 0 }
         let count = observableDataSource.numberOfSections()
         self.numberOfSectionsHandler?(collectionView, count)
         return count
     }
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let observableDataSource = observableDataSource else { return 0 }
+        guard let observableDataSource = observableArray else { return 0 }
         let count = observableDataSource.numberOfRowsInSection(section)
         self.numberOfItemsInSectionHandler?(collectionView, section, count)
         return count
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let observableDataSource = observableDataSource,
+        guard let observableDataSource = observableArray,
               let rowItem = observableDataSource.getRow(at: indexPath)
         else { return UICollectionViewCell() }
         

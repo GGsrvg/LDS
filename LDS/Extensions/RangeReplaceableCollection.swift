@@ -16,10 +16,22 @@ extension RangeReplaceableCollection where Self: MutableCollection, Index == Int
         var j = index(after: i)
         var k = indexes.integerGreaterThan(i) ?? endIndex
         while j != endIndex {
-            if k != j { swapAt(i, j); formIndex(after: &i) }
-            else { k = indexes.integerGreaterThan(k) ?? endIndex }
+            if k != j {
+                swapAt(i, j);
+                formIndex(after: &i)
+            }
+            else {
+                k = indexes.integerGreaterThan(k) ?? endIndex
+            }
             formIndex(after: &j)
         }
         removeSubrange(i...)
+    }
+    
+    func objects(at indexSet: IndexSet) -> [Element] {
+        let elements = indexSet.compactMap { i -> Element in
+            self[i]
+        }
+        return elements
     }
 }
