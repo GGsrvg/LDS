@@ -1,5 +1,5 @@
 //
-//  ObservableArrayNotify.swift
+//  ObservableDataSourceNotify.swift
 //  LDS
 //
 //  Created by GGsrvg on 09.10.2021.
@@ -10,7 +10,7 @@ import Foundation
 /**
  Protocol for notify on change array
  */
-public protocol ObservableArrayNotify: AnyObject {
+public protocol ObservableDataSourceNotify: AnyObject {
     func notifyReload()
     
     func notifyAdd(at indexSet: IndexSet)

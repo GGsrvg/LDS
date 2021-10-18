@@ -9,7 +9,7 @@ import UIKit
 
 public class UITableViewAdapter<SI: SectionItemPrototype>: NSObject, UITableViewDataSource {
     
-    public typealias OBS = ObservableArray<SI>
+    public typealias ODS = ObservableDataSource<SI>
     
     public typealias CellForRowHandler = ((UITableView, IndexPath, SI.Row) -> UITableViewCell)
     public typealias ViewForSectionHandler = ((UITableView, Int) -> String?)
@@ -18,13 +18,13 @@ public class UITableViewAdapter<SI: SectionItemPrototype>: NSObject, UITableView
     /// UITableView is object, first Int is number of sections, second Int is number of items in section
     public typealias NumberOfItemsInSectionHandler = ((UITableView, Int, Int) -> Void)
     
-    public weak var observableArray: OBS? { didSet {
+    public weak var observableDataSource: ODS? { didSet {
         oldValue?.removeCallback(self)
         
-        guard let observableArray = observableArray
+        guard let observableDataSource = observableDataSource
         else { return }
         
-        observableArray.addCallback(self)
+        observableDataSource.addCallback(self)
     }}
     
     private let tableView: UITableView
@@ -53,14 +53,14 @@ public class UITableViewAdapter<SI: SectionItemPrototype>: NSObject, UITableView
     }
     
     public func numberOfSections(in tableView: UITableView) -> Int {
-        guard let observableDataSource = observableArray else { return 0 }
+        guard let observableDataSource = observableDataSource else { return 0 }
         let count = observableDataSource.numberOfSections()
         self.numberOfSectionsHandler?(tableView, count)
         return count
     }
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let observableDataSource = observableArray else { return 0 }
+        guard let observableDataSource = observableDataSource else { return 0 }
         let count = observableDataSource.numberOfRowsInSection(section)
         self.numberOfItemsInSectionHandler?(tableView, section, count)
         return count
@@ -75,7 +75,7 @@ public class UITableViewAdapter<SI: SectionItemPrototype>: NSObject, UITableView
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let observableDataSource = observableArray,
+        guard let observableDataSource = observableDataSource,
               let rowItem = observableDataSource.getRow(at: indexPath)
         else { return UITableViewCell() }
         
@@ -83,7 +83,7 @@ public class UITableViewAdapter<SI: SectionItemPrototype>: NSObject, UITableView
     }
 }
 
-extension UITableViewAdapter: ObservableArrayDelegate {
+extension UITableViewAdapter: ObservableDataSourceDelegate {
     public func reload() {
         self.tableView.reloadData()
     }

@@ -20,7 +20,12 @@ public class SectionItem<H, R, F>: SectionItemPrototype where R: Equatable {
     /**
      Header
      */
-    public var header: H
+    public var header: H { didSet {
+        guard let sectionItemIndex = delegate?.sectionItemIndex(self)
+        else { return }
+        
+        self.observableDataSourceNotify?.notifyHeader(section: sectionItemIndex)
+    }}
     
     /**
      Rows
@@ -35,16 +40,22 @@ public class SectionItem<H, R, F>: SectionItemPrototype where R: Equatable {
     /**
      Footer
      */
-    public var footer: F
+    public var footer: F { didSet {
+        guard let sectionItemIndex = delegate?.sectionItemIndex(self)
+        else { return }
+        
+        self.observableDataSourceNotify?.notifyHeader(section: sectionItemIndex)
+    }}
     
     
     public weak var delegate: SectionItemDelegate?
+    
     /**
-     Have a weak reference to Observable Array Abstract.
+     Have a weak reference
      
      This is necessary to notify about changes in rows.
      */
-    public weak var observableArray: ObservableArrayNotify?
+    public weak var observableDataSourceNotify: ObservableDataSourceNotify?
     
     public init(header: H, rows: [R], footer: F) {
         self.header = header
@@ -64,7 +75,7 @@ public class SectionItem<H, R, F>: SectionItemPrototype where R: Equatable {
         
         self.rows.append(newRow)
         
-        self.observableArray?.notifyAddRow(at: [.init(row: itemIndex, section: sectionItemIndex)])
+        self.observableDataSourceNotify?.notifyAddRow(at: [.init(row: itemIndex, section: sectionItemIndex)])
     }
     
     public func appendRows(_ newRows: [R]) {
@@ -85,7 +96,7 @@ public class SectionItem<H, R, F>: SectionItemPrototype where R: Equatable {
         
         self.rows.append(contentsOf: newRows)
         
-        self.observableArray?.notifyAddRow(at: addIndexPaths)
+        self.observableDataSourceNotify?.notifyAddRow(at: addIndexPaths)
     }
     
     public func insertRow(_ newRow: R, at i: Int) {
@@ -99,16 +110,14 @@ public class SectionItem<H, R, F>: SectionItemPrototype where R: Equatable {
         
         self.rows.insert(newRow, at: i)
         
-        self.observableArray?.notifyInsertRow(at: [indexPath])
+        self.observableDataSourceNotify?.notifyInsertRow(at: [indexPath])
     }
     
     public func insertRow(_ newRow: R, after oldRow: R) {
-        guard var index = self.rows.firstIndex(of: oldRow)
+        guard let index = self.rows.firstIndex(of: oldRow)
         else { return }
         
-        index += 1
-        
-        self.insertRow(newRow, at: index)
+        self.insertRow(newRow, at: index + 1)
     }
     
     public func insertRow(_ newRow: R, before oldRow: R) {
@@ -136,16 +145,14 @@ public class SectionItem<H, R, F>: SectionItemPrototype where R: Equatable {
         
         self.rows.insert(contentsOf: newRows, at: i)
         
-        self.observableArray?.notifyInsertRow(at: insertIndexPaths)
+        self.observableDataSourceNotify?.notifyInsertRow(at: insertIndexPaths)
     }
     
     public func insertRows(_ newRows: [R], after oldRow: R) {
-        guard var index = self.rows.firstIndex(of: oldRow)
+        guard let index = self.rows.firstIndex(of: oldRow)
         else { return }
         
-        index += 1
-        
-        self.insertRows(newRows, at: index)
+        self.insertRows(newRows, at: index + 1)
     }
     
     public func insertRows(_ newRows: [R], before oldRow: R) {
@@ -164,7 +171,7 @@ public class SectionItem<H, R, F>: SectionItemPrototype where R: Equatable {
         
         self.rows[i] = newRow
         
-        self.observableArray?.notifyUpdateRow(at: [IndexPath(row: i, section: sectionItemIndex)])
+        self.observableDataSourceNotify?.notifyUpdateRow(at: [IndexPath(row: i, section: sectionItemIndex)])
     }
     
     public func replaceRow(_ newRow: R, at oldRow: R) {
@@ -172,6 +179,10 @@ public class SectionItem<H, R, F>: SectionItemPrototype where R: Equatable {
         else { return }
         
         self.replaceRow(newRow, at: index)
+    }
+    
+    public func updateRow(_ oldRow: Row) {
+        self.replaceRow(oldRow, at: oldRow)
     }
     
     public func removeRow(_ rows: [R]) {
@@ -190,7 +201,7 @@ public class SectionItem<H, R, F>: SectionItemPrototype where R: Equatable {
         
         self.rows.removeAll { rows.contains($0) }
         
-        self.observableArray?.notifyRemoveRow(at: removedIndexPaths)
+        self.observableDataSourceNotify?.notifyRemoveRow(at: removedIndexPaths)
     }
     
     public func removeAllRows() {
@@ -208,6 +219,6 @@ public class SectionItem<H, R, F>: SectionItemPrototype where R: Equatable {
         
         self.rows.removeAll()
         
-        self.observableArray?.notifyRemoveRow(at: removedIndexPaths)
+        self.observableDataSourceNotify?.notifyRemoveRow(at: removedIndexPaths)
     }
 }
