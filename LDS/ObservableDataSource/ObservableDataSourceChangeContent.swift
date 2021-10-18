@@ -15,11 +15,6 @@ public protocol ObservableDataSourceChangeContent: AnyObject {
     
     func reload()
     
-    // change header and footer
-    func header(_ header: Section.Header, section: Int)
-    
-    func footer(_ footer: Section.Footer, section: Int)
-    
     // change sections
     func appendSection(_ section: Section)
     

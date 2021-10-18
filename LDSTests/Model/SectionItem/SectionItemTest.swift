@@ -18,6 +18,16 @@ class SectionItemTest: XCTestCase {
         self.section.footer = nil
     }
     
+    func testHeader() {
+        self.section.header = "Header"
+        XCTAssertEqual(self.section.header, "Header")
+    }
+    
+    func testFooter() {
+        self.section.footer = "Footer"
+        XCTAssertEqual(self.section.footer, "Footer")
+    }
+    
     // append
     func testAppendRow() {
         self.section.appendRow("Append")

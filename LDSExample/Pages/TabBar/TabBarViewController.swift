@@ -18,10 +18,10 @@ class TabBarViewController: UITabBarController {
 
 extension TabBarViewController {
     private func setTabs() {
-        let tableViewController = TableViewController()
+        let tableViewController = ColorTableViewController()
         tableViewController.tabBarItem = UITabBarItem(title: "Table", image: nil, tag: 0)
         
-        let collectionViewController = CollectionViewController()
+        let collectionViewController = ColorCollectionViewController()
         collectionViewController.tabBarItem = UITabBarItem(title: "Collectionss", image: nil, tag: 1)
         
         self.viewControllers = [tableViewController, collectionViewController]

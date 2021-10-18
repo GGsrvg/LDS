@@ -68,16 +68,6 @@ extension ObservableDataSource: ObservableDataSourceChangeContent {
         notifyReload()
     }
     
-    public func header(_ header: Section.Header, section: Int) {
-        array[section].header = header
-        notifyHeader(section: section)
-    }
-    
-    public func footer(_ footer: Section.Footer, section: Int) {
-        array[section].footer = footer
-        notifyFooter(section: section)
-    }
-    
     public func appendSection(_ section: Section) {
         setSectionDelegate([section])
 
