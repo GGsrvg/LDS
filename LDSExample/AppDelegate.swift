@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let window = UIWindow(frame: UIScreen.main.bounds)
 
-        let navigationController = TabBarViewController()
+        let navigationController = MainTableViewController()
         window.rootViewController = navigationController
 
         self.window = window
