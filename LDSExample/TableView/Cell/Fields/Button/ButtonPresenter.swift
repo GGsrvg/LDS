@@ -14,6 +14,7 @@ class ButtonPresenter: FieldPresenter {
     var textColor: UIColor?
     var textAligment: NSTextAlignment
     var contentInsets: NSDirectionalEdgeInsets?
+    private var tapHandler: (ButtonPresenter) -> Void
     
     internal init(
         image: UIImage?,
@@ -21,12 +22,18 @@ class ButtonPresenter: FieldPresenter {
         font: UIFont?,
         textColor: UIColor?,
         textAligment: NSTextAlignment,
-        contentInsets: NSDirectionalEdgeInsets?
+        contentInsets: NSDirectionalEdgeInsets?,
+        tapHandler: @escaping (ButtonPresenter) -> Void
     ) {
         self.text = text
         self.font = font
         self.textColor = textColor
         self.textAligment = textAligment
         self.contentInsets = contentInsets
+        self.tapHandler = tapHandler
+    }
+    
+    func tap() {
+        self.tapHandler(self)
     }
 }

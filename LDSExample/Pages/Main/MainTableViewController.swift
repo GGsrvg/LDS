@@ -47,7 +47,7 @@ class MainTableViewController: UITableViewController {
         
         switch indexPath.row {
         case 0:
-            vc = UIViewController()
+            vc = QuestionnaireTableViewController()
         case 1:
             vc = ColorCollectionViewController()
         case 2:

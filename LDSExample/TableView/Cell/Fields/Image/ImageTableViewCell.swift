@@ -34,16 +34,19 @@ class ImageTableViewCell: UITableViewCell {
         
         
         let aspectRatioConstraint = mainImageView.widthAnchor.constraint(equalTo: mainImageView.heightAnchor, multiplier: presenter.aspectRatio)
+        aspectRatioConstraint.priority = .defaultHigh
         NSLayoutConstraint.activate([aspectRatioConstraint])
         self.aspectRatioConstraint = aspectRatioConstraint
     }}
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.setView()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+        self.setView()
     }
     
     override func prepareForReuse() {

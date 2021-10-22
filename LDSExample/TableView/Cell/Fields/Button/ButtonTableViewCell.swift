@@ -12,6 +12,7 @@ class ButtonTableViewCell: UITableViewCell {
     lazy var button: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(tapAction), for: .touchUpInside)
         return button
     }()
     
@@ -52,10 +53,12 @@ class ButtonTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.setView()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+        self.setView()
     }
     
     override func prepareForReuse() {
@@ -71,6 +74,10 @@ class ButtonTableViewCell: UITableViewCell {
             contentView.layoutMarginsGuide.trailingAnchor.constraint(equalTo: button.trailingAnchor),
             contentView.bottomAnchor.constraint(equalTo: button.bottomAnchor),
         ])
+    }
+    
+    @objc private func tapAction() {
+        self.presenter?.tap()
     }
 }
 

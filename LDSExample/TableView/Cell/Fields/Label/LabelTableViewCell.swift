@@ -22,6 +22,7 @@ class LabelTableViewCell: UITableViewCell {
             label.textColor = nil
             label.textAlignment = .natural
             label.font = nil
+            label.numberOfLines = 0
             return
         }
         
@@ -29,14 +30,17 @@ class LabelTableViewCell: UITableViewCell {
         label.textColor = presenter.textColor
         label.textAlignment = presenter.textAligment
         label.font = presenter.font
+        label.numberOfLines = presenter.numberOfLines
     }}
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.setView()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+        self.setView()
     }
     
     override func prepareForReuse() {
@@ -48,9 +52,9 @@ class LabelTableViewCell: UITableViewCell {
         
         NSLayoutConstraint.activate([
             label.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
-            label.topAnchor.constraint(equalTo: contentView.topAnchor),
+            label.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4),
             contentView.layoutMarginsGuide.trailingAnchor.constraint(equalTo: label.trailingAnchor),
-            contentView.bottomAnchor.constraint(equalTo: label.bottomAnchor),
+            contentView.bottomAnchor.constraint(equalTo: label.bottomAnchor, constant: 4),
         ])
     }
 }

@@ -45,4 +45,8 @@ public protocol ObservableDataSourceChangeContent: AnyObject {
     func removeSection(_ sections: [Section])
 
     func removeAllSections()
+    
+    // Rows
+    // updating
+    func updateRow(_ oldRow: Section.Row)
 }

@@ -21,6 +21,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window.rootViewController = navigationController
 
         self.window = window
+        if #available(iOS 13.0, *) {
+            window.overrideUserInterfaceStyle = .light
+        }
         self.window!.makeKeyAndVisible()
         return true
     }

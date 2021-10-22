@@ -29,7 +29,6 @@
 		5B6BB4CD272288E3004AAA01 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6BB4CC272288E3004AAA01 /* MainViewModel.swift */; };
 		5B6BB4CF27228EA4004AAA01 /* QuestionnaireTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6BB4CE27228EA4004AAA01 /* QuestionnaireTableViewController.swift */; };
 		5B6BB4D127228EAD004AAA01 /* QuestionnaireViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6BB4D027228EAD004AAA01 /* QuestionnaireViewModel.swift */; };
-		5B6BB4D42722C907004AAA01 /* FieldTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6BB4D32722C907004AAA01 /* FieldTableViewController.swift */; };
 		5B926E99255EFEB1006A5373 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B926E98255EFEB1006A5373 /* TabBarViewController.swift */; };
 		5B9BE31F260C558F00EA1805 /* RangeReplaceableCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B9BE31E260C558F00EA1805 /* RangeReplaceableCollection.swift */; };
 		5BB0BB622562E210001F3CE3 /* ColorTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB0BB612562E210001F3CE3 /* ColorTableViewController.swift */; };
@@ -111,7 +110,6 @@
 		5B6BB4CC272288E3004AAA01 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		5B6BB4CE27228EA4004AAA01 /* QuestionnaireTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionnaireTableViewController.swift; sourceTree = "<group>"; };
 		5B6BB4D027228EAD004AAA01 /* QuestionnaireViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionnaireViewModel.swift; sourceTree = "<group>"; };
-		5B6BB4D32722C907004AAA01 /* FieldTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldTableViewController.swift; sourceTree = "<group>"; };
 		5B926E98255EFEB1006A5373 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		5B9BE31E260C558F00EA1805 /* RangeReplaceableCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RangeReplaceableCollection.swift; sourceTree = "<group>"; };
 		5BB0BB612562E210001F3CE3 /* ColorTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTableViewController.swift; sourceTree = "<group>"; };
@@ -287,18 +285,9 @@
 			path = Base;
 			sourceTree = "<group>";
 		};
-		5B6BB4D22722C8D7004AAA01 /* FieldTableView */ = {
-			isa = PBXGroup;
-			children = (
-				5B6BB4D32722C907004AAA01 /* FieldTableViewController.swift */,
-			);
-			path = FieldTableView;
-			sourceTree = "<group>";
-		};
 		5B926E90255EFE6D006A5373 /* Pages */ = {
 			isa = PBXGroup;
 			children = (
-				5B6BB4D22722C8D7004AAA01 /* FieldTableView */,
 				5B3BCA3D2720287F00884A7B /* Main */,
 				5B3CDBA1271D67C1002B91B8 /* Questionnaire */,
 				5BB0BB5F2562E1EA001F3CE3 /* Collection */,
@@ -659,7 +648,6 @@
 				5B6BB4D127228EAD004AAA01 /* QuestionnaireViewModel.swift in Sources */,
 				5B6BB4CA272288BC004AAA01 /* MainTableViewController.swift in Sources */,
 				5B3BCA2C271E912A00884A7B /* TextFieldPresenter.swift in Sources */,
-				5B6BB4D42722C907004AAA01 /* FieldTableViewController.swift in Sources */,
 				5B3BCA34271E914F00884A7B /* ImagePresenter.swift in Sources */,
 				5B3BCA32271E914700884A7B /* ImageTableViewCell.swift in Sources */,
 				5B3BCA3A271E917A00884A7B /* SegmentedControlTableViewCell.swift in Sources */,

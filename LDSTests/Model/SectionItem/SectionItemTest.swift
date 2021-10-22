@@ -92,7 +92,7 @@ class SectionItemTest: XCTestCase {
     // removing
     func testRemoveRow() {
         self.section.appendRows(["Test1", "Test2", "Test3"])
-        self.section.removeRow(["Test2", "Test1"])
+        self.section.removeRows(["Test2", "Test1"])
         XCTAssertEqual(self.section.rows, ["Test3"])
     }
 

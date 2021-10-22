@@ -15,10 +15,11 @@ class TextFieldTableViewCell: UITableViewCell {
         return textField
     }()
     
-    weak var presenter: LabelPresenter? { didSet {
+    weak var presenter: TextFieldPresenter? { didSet {
         guard let presenter = presenter
         else {
             textField.text = nil
+            textField.placeholder = nil
             textField.textColor = nil
             textField.textAlignment = .natural
             textField.font = nil
@@ -26,6 +27,7 @@ class TextFieldTableViewCell: UITableViewCell {
         }
         
         textField.text = presenter.text
+        textField.placeholder = presenter.placeholder
         textField.textColor = presenter.textColor
         textField.textAlignment = presenter.textAligment
         textField.font = presenter.font
@@ -33,10 +35,12 @@ class TextFieldTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.setView()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+        self.setView()
     }
     
     override func prepareForReuse() {
@@ -48,9 +52,9 @@ class TextFieldTableViewCell: UITableViewCell {
         
         NSLayoutConstraint.activate([
             textField.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
-            textField.topAnchor.constraint(equalTo: contentView.topAnchor),
+            textField.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4),
             contentView.layoutMarginsGuide.trailingAnchor.constraint(equalTo: textField.trailingAnchor),
-            contentView.bottomAnchor.constraint(equalTo: textField.bottomAnchor),
+            contentView.bottomAnchor.constraint(equalTo: textField.bottomAnchor, constant: 4),
         ])
     }
 }

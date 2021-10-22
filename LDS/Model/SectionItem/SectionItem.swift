@@ -185,7 +185,11 @@ public class SectionItem<H, R, F>: SectionItemPrototype where R: Equatable {
         self.replaceRow(oldRow, at: oldRow)
     }
     
-    public func removeRow(_ rows: [R]) {
+    public func updateRows(_ rows: [R]) {
+        
+    }
+    
+    public func removeRows(_ rows: [R]) {
         guard let sectionItemIndex = delegate?.sectionItemIndex(self)
         else {
             self.rows.removeAll { rows.contains($0) }

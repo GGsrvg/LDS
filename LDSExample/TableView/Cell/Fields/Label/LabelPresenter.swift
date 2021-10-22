@@ -19,7 +19,7 @@ class LabelPresenter: FieldPresenter {
         font: UIFont?,
         textColor: UIColor?,
         textAligment: NSTextAlignment,
-        numberOfLines: Int = 0
+        numberOfLines: Int = 1
     ) {
         self.text = text
         self.font = font

@@ -1,0 +1,15 @@
+{
+  "images" : [
+    {
+      "filename" : "Kummakivi_balancing_rock_in_Ruokolahti,_Finland.jpg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  },
+  "properties" : {
+    "compression-type" : "gpu-optimized-smallest"
+  }
+}

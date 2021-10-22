@@ -7,6 +7,10 @@
 
 import Foundation
 
-class FieldPresenter {
+class FieldPresenter: Equatable {
+    static func == (lhs: FieldPresenter, rhs: FieldPresenter) -> Bool {
+        lhs === rhs
+    }
+    
     
 }

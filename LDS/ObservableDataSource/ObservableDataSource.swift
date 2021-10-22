@@ -167,6 +167,13 @@ extension ObservableDataSource: ObservableDataSourceChangeContent {
         array.removeAll()
         notifyReload()
     }
+    
+    public func updateRow(_ oldRow: Section.Row) {
+        guard let indexPath = self.findRow(oldRow)
+        else { return }
+        
+        self.notifyUpdateRow(at: [indexPath])
+    }
 }
 
 // sugar

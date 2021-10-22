@@ -43,7 +43,7 @@ public protocol SectionItemPrototype: AnyObject, Equatable {
     func updateRow(_ oldRow: Row)
     
     // removing
-    func removeRow(_ rows: [Row])
+    func removeRows(_ rows: [Row])
     
     func removeAllRows()
     
@@ -55,5 +55,6 @@ public protocol SectionItemPrototype: AnyObject, Equatable {
      
      This is necessary to notify about changes in rows.
      */
+    // TODO: internal
     var observableDataSourceNotify: ObservableDataSourceNotify? { get set }
 }
