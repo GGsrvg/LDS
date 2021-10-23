@@ -23,6 +23,7 @@
 		5B3CDBAC271D7088002B91B8 /* LabelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3CDBAB271D7088002B91B8 /* LabelTableViewCell.swift */; };
 		5B3CDBAE271D7092002B91B8 /* LabelPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3CDBAD271D7092002B91B8 /* LabelPresenter.swift */; };
 		5B3CDBB1271D732A002B91B8 /* FieldPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3CDBB0271D732A002B91B8 /* FieldPresenter.swift */; };
+		5B5FB141272330020019630D /* ObservableDataSourceDelegateTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B5FB140272330020019630D /* ObservableDataSourceDelegateTest.swift */; };
 		5B606E74255C559100926647 /* LDS.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 5B606E73255C559100926647 /* LDS.podspec */; };
 		5B606E8E255C58C000926647 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 5B606E8D255C58C000926647 /* README.md */; };
 		5B6BB4CA272288BC004AAA01 /* MainTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6BB4C9272288BC004AAA01 /* MainTableViewController.swift */; };
@@ -104,6 +105,7 @@
 		5B3CDBAB271D7088002B91B8 /* LabelTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelTableViewCell.swift; sourceTree = "<group>"; };
 		5B3CDBAD271D7092002B91B8 /* LabelPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelPresenter.swift; sourceTree = "<group>"; };
 		5B3CDBB0271D732A002B91B8 /* FieldPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldPresenter.swift; sourceTree = "<group>"; };
+		5B5FB140272330020019630D /* ObservableDataSourceDelegateTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableDataSourceDelegateTest.swift; sourceTree = "<group>"; };
 		5B606E73255C559100926647 /* LDS.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LDS.podspec; sourceTree = "<group>"; };
 		5B606E8D255C58C000926647 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		5B6BB4C9272288BC004AAA01 /* MainTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewController.swift; sourceTree = "<group>"; };
@@ -459,6 +461,7 @@
 			isa = PBXGroup;
 			children = (
 				5BDFB4D5271DD85D00BAA7A1 /* ObservableDataSourceChangeContentTest.swift */,
+				5B5FB140272330020019630D /* ObservableDataSourceDelegateTest.swift */,
 			);
 			path = ObservableDataSource;
 			sourceTree = "<group>";
@@ -628,6 +631,7 @@
 				5BF3D206261075D200960A47 /* CollectionTest.swift in Sources */,
 				5BF3D202261075C800960A47 /* TableTest.swift in Sources */,
 				5BD1FC2F255AF761006C64B7 /* LDSTests.swift in Sources */,
+				5B5FB141272330020019630D /* ObservableDataSourceDelegateTest.swift in Sources */,
 				5BDFB4D6271DD85D00BAA7A1 /* ObservableDataSourceChangeContentTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -164,8 +164,9 @@ extension ObservableDataSource: ObservableDataSourceChangeContent {
     
     public func removeAllSections() {
         removeSectionDelegate(array)
+        let count = array.count
         array.removeAll()
-        notifyReload()
+        notifyRemove(at: IndexSet(integersIn: 0..<count))
     }
     
     public func updateRow(_ oldRow: Section.Row) {

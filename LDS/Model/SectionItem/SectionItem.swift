@@ -44,7 +44,7 @@ public class SectionItem<H, R, F>: SectionItemPrototype where R: Equatable {
         guard let sectionItemIndex = delegate?.sectionItemIndex(self)
         else { return }
         
-        self.observableDataSourceNotify?.notifyHeader(section: sectionItemIndex)
+        self.observableDataSourceNotify?.notifyFooter(section: sectionItemIndex)
     }}
     
     
@@ -134,7 +134,7 @@ public class SectionItem<H, R, F>: SectionItemPrototype where R: Equatable {
             return
         }
         
-        var indexPath = IndexPath(row: self.rows.count, section: sectionItemIndex)
+        var indexPath = IndexPath(row: i, section: sectionItemIndex)
         
         var insertIndexPaths: [IndexPath] = []
         
